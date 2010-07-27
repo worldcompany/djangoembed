@@ -37,7 +37,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-oembed'
+project = u'djangoembed'
 copyright = u'2010, The World Company'
 
 # The version info for the project you're documenting, acts as replacement for

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The OEmbed Spec &mdash; djangoembed v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="djangoembed v0.1 documentation" href="../index.html" />
+    <link rel="prev" title="Providing Resources" href="providing_resources.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="providing_resources.html" title="Providing Resources"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">djangoembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-oembed-spec">
+<h1>The OEmbed Spec<a class="headerlink" href="#the-oembed-spec" title="Permalink to this headline">¶</a></h1>
+<p>The full spec is available at <a class="reference external" href="http://www.oembed.com">http://www.oembed.com</a> - this overview will touch
+on everything without going into too much detail to get you up and running with
+OEmbed quickly!</p>
+<div class="section" id="what-is-oembed">
+<h2>What is OEmbed?<a class="headerlink" href="#what-is-oembed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+&#8220;oEmbed is a format for allowing an embedded representation of a URL on
+third party sites. The simple API allows a website to display embedded
+content (such as photos or videos) when a user posts a link to that
+resource, without having to parse the resource directly.&#8221;</blockquote>
+</div>
+<div class="section" id="what-problem-does-it-solve">
+<h2>What problem does it solve?<a class="headerlink" href="#what-problem-does-it-solve" title="Permalink to this headline">¶</a></h2>
+<p>One of the tasks we as web developers run into a lot is the need to integrate
+rich third-party content into our own sites.  Numerous REST APIs exist for this
+purpose, but suppose we are only concerned with metadata?</p>
+<dl class="docutils">
+<dt>REST APIs make it difficult to extract metadata in a generic way:</dt>
+<dd><ul class="first last simple">
+<li>URL structures vary (/statuses/update.json, /users/show.json)</li>
+<li>attribute names are not standardized</li>
+<li>metadata provided is content-dependant (twitter returns tweets, flickr photos)</li>
+<li>authentication can be a pain</li>
+<li>response formats vary</li>
+</ul>
+</dd>
+<dt>OEmbed aims at solving these problems by:</dt>
+<dd><ul class="first last simple">
+<li>Endpoint lives at one place, like /oembed/json/</li>
+<li>attribute names are standard, including &#8216;title&#8217;, &#8216;author&#8217;, &#8216;thumbnail_url&#8217;</li>
+<li>resource types are standard, being &#8216;video&#8217;, &#8216;photo&#8217;, &#8216;link&#8217;, &#8216;rich&#8217;</li>
+<li>response format must be JSON or XML</li>
+</ul>
+</dd>
+</dl>
+<p>OEmbed is not a REST API.  It is a <em>READ</em> API.  It allows you to retrieve
+metadata about the objects you&#8217;re interested in, using a single endpoint.</p>
+<p>The best part?  <strong>All you need to provide the endpoint is the URL you want
+metadata about</strong>.</p>
+</div>
+<div class="section" id="an-example">
+<h2>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>curl http://www.flickr.com/services/oembed/?url=http%3A//www.flickr.com/photos/bees/2341623661/
+
+&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;oembed&gt;
+        &lt;version&gt;1.0&lt;/version&gt;
+        &lt;type&gt;photo&lt;/type&gt;
+        &lt;title&gt;ZB8T0193&lt;/title&gt;
+        &lt;author_name&gt;‮‭‬bees‬&lt;/author_name&gt;
+        &lt;author_url&gt;http://www.flickr.com/photos/bees/&lt;/author_url&gt;
+        &lt;cache_age&gt;3600&lt;/cache_age&gt;
+        &lt;provider_name&gt;Flickr&lt;/provider_name&gt;
+        &lt;provider_url&gt;http://www.flickr.com/&lt;/provider_url&gt;
+        &lt;width&gt;500&lt;/width&gt;
+        &lt;height&gt;333&lt;/height&gt;
+        &lt;url&gt;http://farm4.static.flickr.com/3123/2341623661_7c99f48bbf.jpg&lt;/url&gt;
+&lt;/oembed&gt;</pre>
+</div>
+<p>In the example above, we pass a flickr photo-detail URL to their OEmbed endpoint.
+Flickr then returns a wealth of metadata about the object, including the image&#8217;s
+URL, width and height.</p>
+<p>OEmbed endpoints also can accept other arguments, like a <strong>maxwidth</strong>, or <strong>format</strong>:</p>
+<div class="highlight-python"><pre>curl http://www.flickr.com/services/oembed/?url=http%3A//www.flickr.com/photos/bees/2341623661/\&amp;maxwidth=300\&amp;format=json
+
+{
+  "version":"1.0",
+  "type":"photo",
+  "title":"ZB8T0193",
+  "author_name":"\u202e\u202d\u202cbees\u202c",
+  "author_url":"http:\/\/www.flickr.com\/photos\/bees\/",
+  "cache_age":3600,
+  "provider_name":"Flickr",
+  "provider_url":"http:\/\/www.flickr.com\/",
+  "width":"240",
+  "height":"160",
+  "url":"http:\/\/farm4.static.flickr.com\/3123\/2341623661_7c99f48bbf_m.jpg"
+}</pre>
+</div>
+<p>As you can see from the response, the returned image width is now 240.  If a
+maximum width (or height) is specified, the provider must respect that.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">The OEmbed Spec</a><ul>
+<li><a class="reference external" href="#what-is-oembed">What is OEmbed?</a></li>
+<li><a class="reference external" href="#what-problem-does-it-solve">What problem does it solve?</a></li>
+<li><a class="reference external" href="#an-example">An Example</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="providing_resources.html"
+                                  title="previous chapter">Providing Resources</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/djangoembed/spec.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="providing_resources.html" title="Providing Resources"
+             >previous</a> |</li>
+        <li><a href="../index.html">djangoembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, The World Company.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
