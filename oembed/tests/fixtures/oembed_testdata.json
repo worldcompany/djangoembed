@@ -1,0 +1,103 @@
+[
+  {
+    "pk": 1, 
+    "model": "tests.blog", 
+    "fields": {
+      "content": "This is entry one.", 
+      "author": "Charles", 
+      "pub_date": "2010-05-01 09:30:00", 
+      "slug": "entry-1", 
+      "title": "Entry 1"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "tests.blog", 
+    "fields": {
+      "content": "This is entry two.", 
+      "author": "Charles", 
+      "pub_date": "2010-05-02 09:30:00", 
+      "slug": "entry-2", 
+      "title": "Entry 2"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "tests.category", 
+    "fields": {
+      "width": null, 
+      "image": "images/breugel_babel2.jpg", 
+      "name": "Category 1", 
+      "height": null
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "tests.category", 
+    "fields": {
+      "width": null, 
+      "image": "images/kandinsky.comp-8.jpg", 
+      "name": "Category 2", 
+      "height": null
+    }
+  },
+  {
+    "pk": 1,
+    "model": "tests.rich",
+    "fields": {
+      "name": "Rich One",
+      "slug": "rich-one",
+      "content": "This is rich one\nAwesome!"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "oembed.storedoembed", 
+    "fields": {
+      "maxwidth": null, 
+      "maxheight": null, 
+      "date_added": "2009-12-23 11:07:40", 
+      "date_expires": "2029-12-23 11:07:40", 
+      "resource_type": "video",
+      "response_json": "{\"provider_url\": \"http:\\/\\/www.youtube.com\\/\", \"version\": \"1.0\", \"title\": \"Leprechaun in Mobile, Alabama\", \"author_name\": \"botmib\", \"height\": 313, \"width\": 384, \"html\": \"<object width=\\\"384\\\" height=\\\"313\\\"><param name=\\\"movie\\\" value=\\\"http:\\/\\/www.youtube.com\\/v\\/nda_OSWeyn8&amp;fs=1\\\"><param name=\\\"allowFullScreen\\\" value=\\\"true\\\"><param name=\\\"allowscriptaccess\\\" value=\\\"always\\\"><embed src=\\\"http:\\/\\/www.youtube.com\\/v\\/nda_OSWeyn8&amp;fs=1\\\" type=\\\"application\\/x-shockwave-flash\\\" width=\\\"384\\\" height=\\\"313\\\" allowscriptaccess=\\\"always\\\" allowfullscreen=\\\"true\\\"><\\/embed><\\/object>\", \"author_url\": \"http:\\/\\/www.youtube.com\\/user\\/botmib\", \"provider_name\": \"YouTube\", \"type\": \"video\"}", 
+      "match": "http://www.youtube.com/watch?v=nda_OSWeyn8"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "oembed.storedoembed", 
+    "fields": {
+      "maxwidth": null, 
+      "maxheight": null, 
+      "date_added": "2009-12-23 11:07:41", 
+      "date_expires": "2029-12-23 11:07:40", 
+      "resource_type": "video",
+      "response_json": "{\"provider_url\": \"http:\\/\\/www.flickr.com\\/\", \"title\": \"INVISIBLE PYRAMID\", \"url\": \"http:\\/\\/farm4.static.flickr.com\\/3013\\/2554073003_3e16215e12.jpg\", \"author_name\": \"neil \\u25b3 krug\", \"height\": 500, \"width\": 482, \"version\": \"1.0\", \"author_url\": \"http:\\/\\/www.flickr.com\\/photos\\/neilkrug\\/\", \"provider_name\": \"Flickr\", \"cache_age\": 3600, \"type\": \"photo\"}", 
+      "match": "http://www.flickr.com/photos/neilkrug/2554073003/"
+    }
+  }, 
+  {
+    "pk": 100,
+    "model": "oembed.storedprovider",
+    "fields": {
+      "endpoint_url": "http://www.active.com/oembed/json/",
+      "regex": "http://www.active.com/.+?",
+      "wildcard_regex": "http://www.active.com/*",
+      "resource_type": "photo",
+      "active": "True",
+      "provides": "False"
+    }
+  },
+  {
+    "pk": 101,
+    "model": "oembed.storedprovider",
+    "fields": {
+      "endpoint_url": "http://www.inactive.com/oembed/json/",
+      "regex": "http://www.inactive.com/.+?",
+      "wildcard_regex": "http://www.inactive.com/*",
+      "resource_type": "video",
+      "active": "False",
+      "provides": "False"
+    }
+  }
+]

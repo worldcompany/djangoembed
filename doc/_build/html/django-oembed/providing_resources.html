@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Providing Resources &mdash; django-oembed v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="django-oembed v0.1 documentation" href="../index.html" />
+    <link rel="next" title="The OEmbed Spec" href="spec.html" />
+    <link rel="prev" title="OEmbed Resources" href="oembed_resources.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="spec.html" title="The OEmbed Spec"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="oembed_resources.html" title="OEmbed Resources"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="providing-resources">
+<h1>Providing Resources<a class="headerlink" href="#providing-resources" title="Permalink to this headline">¶</a></h1>
+<p>Suppose you would like your own content to be OEmbed-able.  Making your own site
+a provider also allows you to consume your own content in a uniform fashion.
+Say you have a blog app and occasionally link to your own articles.  By defining
+a provider for your blog entries, you can consume them transparently!</p>
+<p>django-oembed comes with base classes you can extend to write your own providers
+depending on what you want to embed.</p>
+<div class="section" id="baseprovider">
+<h2>BaseProvider<a class="headerlink" href="#baseprovider" title="Permalink to this headline">¶</a></h2>
+<p>Taking a look at BaseProvider, we see that it defines two attributes and one
+method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">BaseProvider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for OEmbed resources.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">regex_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># list of regexes to match</span>
+    <span class="n">provides</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># allow this provider to be accessed by third parties</span>
+
+    <span class="k">def</span> <span class="nf">endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an OEmbedResource from one of the providers configured in this</span>
+<span class="sd">        provider according to the resource url.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            url: The url of the resource to get.</span>
+<span class="sd">            **kwargs: Optional parameters to pass in to the provider.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            OEmbedResource object.</span>
+
+<span class="sd">        If no object returned, raises OEmbedException</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</pre></div>
+</div>
+<p>When the consumer processes a URL, it checks to see if it&#8217;s URL matches any of
+the regexes provided by registered OEmbedProviders.  When a match is found, that
+provider&#8217;s <tt class="docutils literal"><span class="pre">endpoint()</span></tt> method is called, with the URL and any arguments
+passed in, such as &#8216;format&#8217;, &#8216;maxwidth&#8217;, or &#8216;maxheight&#8217;.  The <tt class="docutils literal"><span class="pre">endpoint()</span></tt>
+method returns a valid OEmbedResource or raises an <tt class="docutils literal"><span class="pre">OEmbedException</span></tt>.</p>
+</div>
+<div class="section" id="httpprovider">
+<h2>HTTPProvider<a class="headerlink" href="#httpprovider" title="Permalink to this headline">¶</a></h2>
+<p>Many popular content sites already provide OEmbed endpoints.  The <tt class="docutils literal"><span class="pre">HTTPProvider</span></tt>
+acts as a proxy layer that handles fetching resources and validating them.</p>
+<p>Looking in <tt class="docutils literal"><span class="pre">oembed_providers.py</span></tt>, there are numerous providers already set-up
+for you.  Here is what the Flickr provider looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FlickrProvider</span><span class="p">(</span><span class="n">HTTPProvider</span><span class="p">):</span>
+    <span class="n">endpoint_url</span> <span class="o">=</span> <span class="s">&#39;http://www.flickr.com/services/oembed/&#39;</span>
+    <span class="n">regex_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="djangoprovider">
+<h2>DjangoProvider<a class="headerlink" href="#djangoprovider" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">DjangoProvider</span></tt> class is intended to make writing providers for your
+Django models super easy.  It knows how to introspect your models for
+ImageFields, it can intelligently resize your objects based on user-specified
+dimensions, and it allows you to return HTML rendered through your own templates
+for rich content like videos.</p>
+<p>Let&#8217;s look at a basic example you might use for a Blog:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># assume the following is our Blog model</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
+
+<span class="k">class</span> <span class="nc">Entry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mf">255</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">()</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+    <span class="n">published</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="n">pub_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;blog_detail&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">urls.py</span></tt> defines a list and detail view:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls.defaults</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;blog.views&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;entry_slug&gt;[-a-z0-9]+)/$&#39;</span><span class="p">,</span>
+        <span class="n">view</span><span class="o">=</span><span class="s">&#39;blog_detail&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;blog_detail&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span>
+        <span class="n">view</span><span class="o">=</span><span class="s">&#39;blog_list&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;blog_index&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s write a provider for it.  This lives in an <tt class="docutils literal"><span class="pre">oembed_providers.py</span></tt>
+file in your blog app&#8217;s directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">oembed</span>
+<span class="kn">from</span> <span class="nn">blog.models</span> <span class="kn">import</span> <span class="n">Entry</span>
+<span class="kn">from</span> <span class="nn">oembed.providers</span> <span class="kn">import</span> <span class="n">DjangoProvider</span>
+
+<span class="k">class</span> <span class="nc">EntryProvider</span><span class="p">(</span><span class="n">DjangoProvider</span><span class="p">):</span>
+    <span class="n">resource_type</span> <span class="o">=</span> <span class="s">&#39;link&#39;</span> <span class="c"># this is required</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Entry</span>
+    <span class="n">named_view</span> <span class="o">=</span> <span class="s">&#39;blog_detail&#39;</span>
+    <span class="n">fields_to_match</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;entry_slug&#39;</span><span class="p">:</span> <span class="s">&#39;slug&#39;</span><span class="p">}</span> <span class="c"># map url field to model field</span>
+
+    <span class="k">def</span> <span class="nf">author_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">username</span>
+
+    <span class="k">def</span> <span class="nf">author_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">get_absolute_url</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># this defaults to self.model._default_manager.all(), but we don&#39;t</span>
+        <span class="c"># want to provide unpublished entries, so do a bit of filtering</span>
+        <span class="k">return</span> <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">published</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># don&#39;t forget to register your provider</span>
+<span class="n">oembed</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">EntryProvider</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You should now be able to hit your API endpoint (by default /oembed/json/) with
+a published entry URL and get a JSON response!</p>
+<p>One caveat: django provider URLs build their regexes using site domains from the
+sites app.  If your site is <tt class="docutils literal"><span class="pre">http://www.mysite.com</span></tt> and you are running locally,
+using <tt class="docutils literal"><span class="pre">127.0.0.1:8000</span></tt>, you will want to give your endpoint URLs as they would
+appear on your live site, so:</p>
+<blockquote>
+<p><a class="reference external" href="http://www.mysite.com/blog/this-is-a-great-entry/">http://www.mysite.com/blog/this-is-a-great-entry/</a></p>
+<p>instead of</p>
+<p><a class="reference external" href="http://127.0.0.1/blog/this-is-a-great-entry/">http://127.0.0.1/blog/this-is-a-great-entry/</a></p>
+</blockquote>
+</div>
+<div class="section" id="djangodatebasedprovider">
+<h2>DjangoDateBasedProvider<a class="headerlink" href="#djangodatebasedprovider" title="Permalink to this headline">¶</a></h2>
+<p>Oftentimes, your content may live a date-based URL.  Writing providers for these
+models is simplified by using the <tt class="docutils literal"><span class="pre">DjangoDateBasedProvider</span></tt> class.  Returning
+to the Blog example from above, let&#8217;s assume the detail view looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;year&gt;\d{4})/(?P&lt;month&gt;\w{3})/(?P&lt;day&gt;\d{1,2})/(?P&lt;entry_slug&gt;[\w-]+)/$&#39;</span><span class="p">,</span>
+    <span class="n">view</span><span class="o">=</span><span class="s">&#39;blog_detail&#39;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">&#39;blog_detail&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>The only modification we will make to our <tt class="docutils literal"><span class="pre">EntryProvider</span></tt> will be to subclass
+the date-based provider class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">oembed.providers</span> <span class="kn">import</span> <span class="n">DjangoDateBasedProvider</span>
+
+<span class="k">class</span> <span class="nc">EntryProvider</span><span class="p">(</span><span class="n">DjangoDateBasedProvider</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The date-based provider introspects your model and uses the first DateField or
+DateTimeField.  If you have multiple fields of this type, you can explicitly
+define a date field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">oembed.providers</span> <span class="kn">import</span> <span class="n">DjangoDateBasedProvider</span>
+
+<span class="k">class</span> <span class="nc">EntryProvider</span><span class="p">(</span><span class="n">DjangoDateBasedProvider</span><span class="p">):</span>
+    <span class="n">date_field</span> <span class="o">=</span> <span class="s">&#39;pub_date&#39;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-are-images-handled">
+<h2>How are images handled?<a class="headerlink" href="#how-are-images-handled" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Providing Resources</a><ul>
+<li><a class="reference external" href="#baseprovider">BaseProvider</a></li>
+<li><a class="reference external" href="#httpprovider">HTTPProvider</a></li>
+<li><a class="reference external" href="#djangoprovider">DjangoProvider</a></li>
+<li><a class="reference external" href="#djangodatebasedprovider">DjangoDateBasedProvider</a></li>
+<li><a class="reference external" href="#how-are-images-handled">How are images handled?</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="oembed_resources.html"
+                                  title="previous chapter">OEmbed Resources</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="spec.html"
+                                  title="next chapter">The OEmbed Spec</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/django-oembed/providing_resources.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="spec.html" title="The OEmbed Spec"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="oembed_resources.html" title="OEmbed Resources"
+             >previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, The World Company.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

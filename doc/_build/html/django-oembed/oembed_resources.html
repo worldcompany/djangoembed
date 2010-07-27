@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>OEmbed Resources &mdash; django-oembed v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="django-oembed v0.1 documentation" href="../index.html" />
+    <link rel="next" title="The OEmbed Spec" href="spec.html" />
+    <link rel="prev" title="Getting Started with OEmbed" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="spec.html" title="The OEmbed Spec"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started with OEmbed"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="oembed-resources">
+<h1>OEmbed Resources<a class="headerlink" href="#oembed-resources" title="Permalink to this headline">¶</a></h1>
+<p>Resources are the objects returned by an OEmbed endpoint.  The OEmbed spec
+defines 4 resource types:</p>
+<ul class="simple">
+<li>Video</li>
+<li>Photo</li>
+<li>Rich</li>
+<li>Link</li>
+</ul>
+<div class="section" id="basic-metadata">
+<h2>Basic Metadata<a class="headerlink" href="#basic-metadata" title="Permalink to this headline">¶</a></h2>
+<p>Regardless of which resource type you are dealing with, the same metadata may be
+provided:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>type (required)</dt>
+<dd><p class="first last">The resource type. Valid values, along with value-specific parameters, are described below.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>version (required)</dt>
+<dd><p class="first last">The oEmbed version number. This must be 1.0.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>title (optional)</dt>
+<dd><p class="first last">A text title, describing the resource.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>author_name (optional)</dt>
+<dd><p class="first last">The name of the author/owner of the resource.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>author_url (optional)</dt>
+<dd><p class="first last">A URL for the author/owner of the resource.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>provider_name (optional)</dt>
+<dd><p class="first last">The name of the resource provider.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>provider_url (optional)</dt>
+<dd><p class="first last">The url of the resource provider.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>cache_age (optional)</dt>
+<dd><p class="first last">The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>thumbnail_url (optional)</dt>
+<dd><p class="first last">A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this paramater is present, thumbnail_width and thumbnail_height must also be present.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>thumbnail_width (optional)</dt>
+<dd><p class="first last">The width of the optional thumbnail. If this paramater is present, thumbnail_url and thumbnail_height must also be present.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>thumbnail_height (optional)</dt>
+<dd><p class="first last">The height of the optional thumbnail. If this paramater is present, thumbnail_url and thumbnail_width must also be present.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="video-resources">
+<h2>Video Resources<a class="headerlink" href="#video-resources" title="Permalink to this headline">¶</a></h2>
+<p>Video resources are embeddable video players, and are returned by providers like
+YouTube and Vimeo.  Every video resource <strong>must</strong> provide the following
+metadata:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>html (required)</dt>
+<dd><p class="first last">The HTML required to embed a video player. The HTML should have no padding
+or margins. Consumers may wish to load the HTML in an off-domain iframe to
+avoid XSS vulnerabilities.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>width (required)</dt>
+<dd><p class="first last">The width in pixels required to display the HTML.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>height (required)</dt>
+<dd><p class="first last">The height in pixels required to display the HTML.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Responses of this type must obey the maxwidth and maxheight request parameters.
+If a provider wishes the consumer to just provide a thumbnail, rather than an
+embeddable player, they should instead return a photo response type.</p>
+</div>
+<div class="section" id="photo-resources">
+<h2>Photo Resources<a class="headerlink" href="#photo-resources" title="Permalink to this headline">¶</a></h2>
+<p>Photo resources are static photos. The following parameters are defined:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>url (required)</dt>
+<dd><p class="first last">The source URL of the image. Consumers should be able to insert this URL
+into an &lt;img&gt; element. Only HTTP and HTTPS URLs are valid.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>width (required)</dt>
+<dd><p class="first last">The width in pixels of the image specified in the url parameter.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>height (required)</dt>
+<dd><p class="first last">The height in pixels of the image specified in the url parameter.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Responses of this type must obey the maxwidth and maxheight request parameters.</p>
+</div>
+<div class="section" id="rich-resources">
+<h2>Rich Resources<a class="headerlink" href="#rich-resources" title="Permalink to this headline">¶</a></h2>
+<p>This type is used for rich HTML content that does not fall under one of the
+other categories. The following parameters are defined:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>html (required)</dt>
+<dd><p class="first last">The HTML required to display the resource. The HTML should have no padding
+or margins. Consumers may wish to load the HTML in an off-domain iframe to
+avoid XSS vulnerabilities. The markup should be valid XHTML 1.0 Basic.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>width (required)</dt>
+<dd><p class="first last">The width in pixels required to display the HTML.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>height (required)</dt>
+<dd><p class="first last">The height in pixels required to display the HTML.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Responses of this type must obey the maxwidth and maxheight request parameters.</p>
+</div>
+<div class="section" id="link-resources">
+<h2>Link Resources<a class="headerlink" href="#link-resources" title="Permalink to this headline">¶</a></h2>
+<p>Responses of this type allow a provider to return any generic embed data
+(such as title and author_name), without providing either the url or html
+parameters. The consumer may then link to the resource, using the URL specified
+in the original request.</p>
+</div>
+<div class="section" id="resource-validation">
+<h2>Resource Validation<a class="headerlink" href="#resource-validation" title="Permalink to this headline">¶</a></h2>
+<p>django-oembed validates resources for you!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">OEmbed Resources</a><ul>
+<li><a class="reference external" href="#basic-metadata">Basic Metadata</a></li>
+<li><a class="reference external" href="#video-resources">Video Resources</a></li>
+<li><a class="reference external" href="#photo-resources">Photo Resources</a></li>
+<li><a class="reference external" href="#rich-resources">Rich Resources</a></li>
+<li><a class="reference external" href="#link-resources">Link Resources</a></li>
+<li><a class="reference external" href="#resource-validation">Resource Validation</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="getting_started.html"
+                                  title="previous chapter">Getting Started with OEmbed</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="spec.html"
+                                  title="next chapter">The OEmbed Spec</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/django-oembed/oembed_resources.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="spec.html" title="The OEmbed Spec"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started with OEmbed"
+             >previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, The World Company.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

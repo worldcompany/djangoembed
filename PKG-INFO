@@ -1,0 +1,18 @@
+Metadata-Version: 1.0
+Name: oembed
+Version: 0.1
+Summary: OEmbed provider/consumer for django
+Home-page: http://www.charlesleifer.com/blog/
+Author: Charles Leifer
+Author-email: coleifer@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Utilities

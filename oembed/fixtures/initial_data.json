@@ -1,0 +1,734 @@
+[
+  {
+    "pk": 1, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?flickr.com/\\S*", 
+      "wildcard_regex": "http://*.flickr.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://www.flickr.com/services/oembed/", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?viddler.com/\\S*", 
+      "wildcard_regex": "http://*.viddler.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://lab.viddler.com/services/oembed/", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://qik.com/\\S*", 
+      "wildcard_regex": "http://qik.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://qik.com/api/oembed.json", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?pownce.com/\\S*", 
+      "wildcard_regex": "http://*.pownce.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://api.pownce.com/2.1/oembed.json", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?revision3.com/\\S*", 
+      "wildcard_regex": "http://*.revision3.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://revision3.com/api/oembed/", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.collegehumor.com/video:\\S*", 
+      "wildcard_regex": "http://*.collegehumor.com/video:*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.funnyordie.com/videos/\\S*", 
+      "wildcard_regex": "http://*.funnyordie.com/videos/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://video.google.com/videoplay?\\S*", 
+      "wildcard_regex": "http://video.google.com/videoplay?*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.hulu.com/watch/\\S*", 
+      "wildcard_regex": "http://www.hulu.com/watch/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.metacafe.com/watch/\\S*", 
+      "wildcard_regex": "http://*.metacafe.com/watch/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://twitter.com/\\S*/statuses/\\S*", 
+      "wildcard_regex": "http://twitter.com/*/statuses/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.wikipedia.org/wiki/\\S*", 
+      "wildcard_regex": "http://*.wikipedia.org/wiki/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://oohembed.com/oohembed/", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.youtube.com/watch\\S*", 
+      "wildcard_regex": "http://www.youtube.com/watch*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://www.youtube.com/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://vimeo.com/\\S*", 
+      "wildcard_regex": "http://vimeo.com/*", 
+      "provides": false, 
+      "active": true, 
+      "endpoint_url": "http://vimeo.com/api/oembed.json", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.slideshare.net/\\S*/\\S*", 
+      "wildcard_regex": "http://www.slideshare.net/*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*.scribd.com/doc/\\S*", 
+      "wildcard_regex": "http://*.scribd.com/doc/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://screenr.com/\\S*", 
+      "wildcard_regex": "http://screenr.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.5min.com/Video/\\S*", 
+      "wildcard_regex": "http://www.5min.com/Video/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.howcast.com/videos/\\S*", 
+      "wildcard_regex": "http://www.howcast.com/videos/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://\\S*?screencast.com/\\S*/media/\\S*|http://\\S*?screencast.com/t/\\S*)", 
+      "wildcard_regex": "http://*.screencast.com/*/media/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.clearspring.com/widgets/\\S*", 
+      "wildcard_regex": "http://www.clearspring.com/widgets/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://my.opera.com/\\S*/albums/show.dml\\?id=\\S*|http://my.opera.com/\\S*/albums/showpic.dml\\?album=\\S*&picture=\\S*)", 
+      "wildcard_regex": "http://my.opera.com/*/albums/showpic.dml?album=*&picture=*)", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*yfrog.\\S*/\\S*", 
+      "wildcard_regex": "http://*.yfrog.*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://tweetphoto.com/\\S*", 
+      "wildcard_regex": "http://tweetphoto.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*twitpic.com/\\S*", 
+      "wildcard_regex": "http://*.twitpic.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*imgur.com/\\S*", 
+      "wildcard_regex": "http://*.imgur.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://twitgoo.com/\\S*", 
+      "wildcard_regex": "http://twitgoo.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 28, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://i\\S*.photobucket.com/albums/\\S*|http://gi\\S*.photobucket.com/groups/\\S*)", 
+      "wildcard_regex": "http://*.photobucket.com/albums/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 29, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://phodroid.com/\\S*/\\S*/\\S*", 
+      "wildcard_regex": "http://phodroid.com/*/*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 30, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://xkcd.com/\\S*", 
+      "wildcard_regex": "http://xkcd.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 31, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?23hq.com/\\S*/photo/\\S*", 
+      "wildcard_regex": "http://*.23hq.com/*/photo/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "photo"
+    }
+  }, 
+  {
+    "pk": 32, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://\\S*amazon.\\S*/gp/product/\\S*|http://\\S*amazon.\\S*/\\S*/dp/\\S*|http://\\S*amazon.\\S*/dp/\\S*|http://\\S*amazon.\\S*/o/ASIN/\\S*|http://\\S*amazon.\\S*/gp/offer-listing/\\S*|http://\\S*amazon.\\S*/\\S*/ASIN/\\S*|http://\\S*amazon.\\S*/gp/product/images/\\S*)", 
+      "wildcard_regex": "http://*.amazon.*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 33, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.veoh.com/\\S*/watch/\\S*", 
+      "wildcard_regex": "http://www.veoh.com/*/watch/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 34, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*justin.tv/\\S*", 
+      "wildcard_regex": "http://*.justin.tv/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 35, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.ustream.tv/(recorded|channel)/\\S*", 
+      "wildcard_regex": "http://www.ustream.tv/*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 36, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://\\S*.dailymotion.com/video/\\S*|http://\\S*.dailymotion.com/\\S*/video/\\S*)", 
+      "wildcard_regex": "http://*.dailymotion.com/*/video/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 37, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.twitvid.com/\\S*", 
+      "wildcard_regex": "http://www.twitvid.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 38, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.break.com/\\S*/\\S*", 
+      "wildcard_regex": "http://www.break.com/*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 39, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://(www|vids).myspace.com/index.cfm\\?fuseaction=\\S*&videoid\\S*", 
+      "wildcard_regex": "http://*.myspace.com/index.cfm?fuseaction=*&videoid=*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 40, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*blip.tv/file/\\S*", 
+      "wildcard_regex": "http://*.blip.tv/file/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 41, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*revver.com/video/\\S*", 
+      "wildcard_regex": "http://*.revver.com/video/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 42, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://video.yahoo.com/watch/\\S*/\\S*|http://video.yahoo.com/network/\\S*)", 
+      "wildcard_regex": "http://video.yahoo.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 43, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*?liveleak.com/view?\\S*", 
+      "wildcard_regex": "http://*.liveleak.com/view?*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 44, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://animoto.com/(play|s)/\\S*", 
+      "wildcard_regex": "http://animoto.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 45, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://dotsub.com/view/\\S*", 
+      "wildcard_regex": "http://dotsub.com/view/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 46, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://soundcloud.com/\\S*", 
+      "wildcard_regex": "http://soundcloud.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 47, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.lala.com/#*(album|song)/\\S*", 
+      "wildcard_regex": "http://www.lala.com/*/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "rich"
+    }
+  }, 
+  {
+    "pk": 48, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://movieclips.com/watch/\\S*/\\S*/|http://movieclips.com/watch/\\S*/\\S*/\\S*/\\S*)", 
+      "wildcard_regex": "http://movieclips.com/watch/*/*)", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 49, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*crackle.com/c/\\S*", 
+      "wildcard_regex": "http://*.crackle.com/c/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 50, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.fancast.com/\\S*/videos", 
+      "wildcard_regex": "http://www.fancast.com/*/videos", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 51, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.ted.com/talks/\\S*.html", 
+      "wildcard_regex": "http://www.ted.com/talks/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 52, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*omnisio.com/\\S*", 
+      "wildcard_regex": "http://*.omnisio.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 53, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*nfb.ca/film/\\S*", 
+      "wildcard_regex": "http://*.nfb.ca/film/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 54, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "(http://www.thedailyshow.com/(watch|full-episodes)/\\S*|http://www.thedailyshow.com/collection/\\S*/\\S*/\\S*)", 
+      "wildcard_regex": "http://www.thedailyshow.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 55, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://movies.yahoo.com/movie/\\S*/(video|info|trailer)/\\S*", 
+      "wildcard_regex": "http://movies.yahoo.com/movie/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 56, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.colbertnation.com/(the-colbert-report-collections|full-episodes|the-colbert-report-videos)/\\S*", 
+      "wildcard_regex": "http://www.colbertnation.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 57, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.comedycentral.com/videos/index.jhtml?\\S*", 
+      "wildcard_regex": "http://www.comedycentral.com/videos/index.jhtml?*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 58, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://\\S*theonion.com/video/\\S*", 
+      "wildcard_regex": "http://*.theonion.com/video/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 59, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://wordpress.tv/\\S*/\\S*/\\S*/\\S*/", 
+      "wildcard_regex": "http://wordpress.tv/*/*/*/*/", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 60, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.traileraddict.com/(trailer|clip|poster)/\\S*", 
+      "wildcard_regex": "http://www.traileraddict.com/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }, 
+  {
+    "pk": 61, 
+    "model": "oembed.storedprovider", 
+    "fields": {
+      "regex": "http://www.escapistmagazine.com/videos/\\S*", 
+      "wildcard_regex": "http://www.escapistmagazine.com/videos/*", 
+      "provides": false, 
+      "active": false, 
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "resource_type": "video"
+    }
+  }
+]

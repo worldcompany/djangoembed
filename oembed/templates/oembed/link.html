@@ -1,0 +1,7 @@
+{% autoescape off %}
+  {% if response.html %}
+    {{ response.html }}
+  {% else %}
+      <a href="{{ response.url }}">{% if response.title %}{{ response.title }}{% else %}{{ response.url }}{% endif %}</a>
+  {% endif %}
+{% endautoescape %}

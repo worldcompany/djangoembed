@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started with OEmbed &mdash; django-oembed v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="django-oembed v0.1 documentation" href="../index.html" />
+    <link rel="next" title="OEmbed Resources" href="oembed_resources.html" />
+    <link rel="prev" title="Welcome to django-oembed’s documentation!" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="oembed_resources.html" title="OEmbed Resources"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to django-oembed’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started-with-oembed">
+<h1>Getting Started with OEmbed<a class="headerlink" href="#getting-started-with-oembed" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>First, you need to install OEmbed.  It is available at <a class="reference external" href="http://www.github.com/worldcompany/django-oembed/">http://www.github.com/worldcompany/django-oembed/</a></p>
+<div class="highlight-python"><pre>git clone git://github.com/worldcompany/django-oembed/
+cd django-oembed
+python setup.py install</pre>
+</div>
+</div>
+<div class="section" id="adding-to-your-django-project">
+<h2>Adding to your Django Project<a class="headerlink" href="#adding-to-your-django-project" title="Permalink to this headline">¶</a></h2>
+<p>After installing, adding OEmbed consumption to your projects is a snap.  First,
+add it to your projects&#8217; INSTALLED_APPs and run &#8216;syncdb&#8217;:</p>
+<div class="highlight-python"><pre># settings.py
+INSTALLED_APPS = [
+    ...
+    'oembed'
+]</pre>
+</div>
+<p>django-oembed uses a registration pattern like the admin&#8217;s.  In order to be
+sure all apps have been loaded, django-oembed should run autodiscover() in the
+urls.py.  If you like, you can place this code right below your admin.autodiscover()
+bits:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># urls.py</span>
+<span class="kn">import</span> <span class="nn">oembed</span>
+<span class="n">oembed</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="consuming-resources">
+<h2>Consuming Resources<a class="headerlink" href="#consuming-resources" title="Permalink to this headline">¶</a></h2>
+<p>Now you&#8217;re ready to start consuming OEmbed-able objects.  There are a couple of
+options depending on what you want to do.  The most straightforward way to get
+up-and-running is to add it to your templates:</p>
+<div class="highlight-python"><pre>{% load oembed_tags %}
+
+{% oembed %}blog.content{% endoembed %}
+
+{# or use the filter #}
+
+{{ blog.content|oembed }}
+
+{# maybe you're working with some dimensional constraints #}
+
+{% oembed "600x600" %}blog.content{% endoembed %}
+
+{{ blog.content|oembed:"600x600" }}</pre>
+</div>
+<p>You can consume oembed objects in python as well:</p>
+<div class="highlight-python"><pre>import oembed
+oembed.autodiscover()
+
+# just get the metadata
+resource = oembed.site.embed('http://www.youtube.com/watch?v=nda_OSWeyn8')
+resource.get_data()
+
+{u'author_name': u'botmib',
+ u'author_url': u'http://www.youtube.com/user/botmib',
+ u'height': 313,
+ u'html': u'&lt;object width="384" height="313"&gt;&lt;param name="movie" value="http://www.youtube.com/v/nda_OSWeyn8&amp;fs=1"&gt;&lt;/param&gt;&lt;param name="allowFullScreen" value="true"&gt;&lt;/param&gt;&lt;param name="allowscriptaccess" value="always"&gt;&lt;/param&gt;&lt;embed src="http://www.youtube.com/v/nda_OSWeyn8&amp;fs=1" type="application/x-shockwave-flash" width="384" height="313" allowscriptaccess="always" allowfullscreen="true"&gt;&lt;/embed&gt;&lt;/object&gt;',
+ u'provider_name': u'YouTube',
+ u'provider_url': u'http://www.youtube.com/',
+ u'title': u'Leprechaun in Mobile, Alabama',
+ u'type': u'video',
+ u'version': u'1.0',
+ u'width': 384}
+
+# get the metadata and run it through a template for pretty presentation
+from oembed.consumer import OEmbedConsumer
+client = OEmbedConsumer()
+embedded = client.parse_text("http://www.youtube.com/watch?v=nda_OSWeyn8")
+
+&lt;div class="oembed oembed-video provider-youtube"&gt;
+  &lt;object width="384" height="313"&gt;
+    &lt;param name="movie" value="http://www.youtube.com/v/nda_OSWeyn8&amp;fs=1"&gt;&lt;/param&gt;
+    &lt;param name="allowFullScreen" value="true"&gt;&lt;/param&gt;
+    &lt;param name="allowscriptaccess" value="always"&gt;&lt;/param&gt;
+    &lt;embed src="http://www.youtube.com/v/nda_OSWeyn8&amp;fs=1"
+           type="application/x-shockwave-flash"
+           width="384"
+           height="313"
+           allowscriptaccess="always"
+           allowfullscreen="true"&gt;
+    &lt;/embed&gt;
+  &lt;/object&gt;
+  &lt;p class="credit"&gt;
+    &lt;a href="http://www.youtube.com/watch?v=nda_OSWeyn8"&gt;Leprechaun in Mobile, Alabama&lt;/a&gt;
+    by
+    &lt;a href="http://www.youtube.com/user/botmib"&gt;botmib&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;'</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Getting Started with OEmbed</a><ul>
+<li><a class="reference external" href="#installation">Installation</a></li>
+<li><a class="reference external" href="#adding-to-your-django-project">Adding to your Django Project</a></li>
+<li><a class="reference external" href="#consuming-resources">Consuming Resources</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html"
+                                  title="previous chapter">Welcome to django-oembed&#8217;s documentation!</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="oembed_resources.html"
+                                  title="next chapter">OEmbed Resources</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="../_sources/django-oembed/getting_started.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="oembed_resources.html" title="OEmbed Resources"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to django-oembed’s documentation!"
+             >previous</a> |</li>
+        <li><a href="../index.html">django-oembed v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, The World Company.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>
