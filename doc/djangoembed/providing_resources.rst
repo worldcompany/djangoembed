@@ -22,7 +22,7 @@ method::
         regex = r''
         provides = True  # allow this provider to be accessed by third parties
             
-        def endpoint(self, url, **kwargs):
+        def request_resource(self, url, **kwargs):
             """
             Get an OEmbedResource from one of the providers configured in this 
             provider according to the resource url.
@@ -107,9 +107,11 @@ file in your blog app's directory::
     
     class EntryProvider(DjangoProvider):
         resource_type = 'link' # this is required
-        model = Entry
-        named_view = 'blog_detail'
-        fields_to_match = {'entry_slug': 'slug'} # map url field to model field
+        
+        class Meta:
+            queryset = Entry.objects.filter(published=True)
+            named_view = 'blog_detail'
+            fields_to_match = {'entry_slug': 'slug'} # map url field to model field
         
         def author_name(self, obj):
             return obj.author.username
@@ -119,11 +121,6 @@ file in your blog app's directory::
         
         def title(self, obj):
             return obj.title
-        
-        def get_queryset(self):
-            # this defaults to self.model._default_manager.all(), but we don't
-            # want to provide unpublished entries, so do a bit of filtering
-            return Entry.objects.filter(published=True)
 
     # don't forget to register your provider
     oembed.site.register(EntryProvider)
@@ -169,8 +166,10 @@ define a date field::
     from oembed.providers import DjangoDateBasedProvider
     
     class EntryProvider(DjangoDateBasedProvider):
-        date_field = 'pub_date'
         ...
+        class Meta:
+            ...
+            date_field = 'pub_date'
 
 
 How are images handled?
