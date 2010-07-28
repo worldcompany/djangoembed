@@ -1,4 +1,10 @@
 import simplejson
+import os
+
+try: 
+    import Image
+except ImportError:
+    from PIL import Image
 
 from django.conf import settings
 from django.core.urlresolvers import reverse, NoReverseMatch
@@ -36,7 +42,25 @@ class BaseOEmbedTestCase(TestCase):
         self.media_root, self.media_url = settings.MEDIA_ROOT, settings.MEDIA_URL
         settings.MEDIA_ROOT = MEDIA_ROOT
         settings.MEDIA_URL = MEDIA_URL
-    
+
+        babel_image_path = os.path.join(MEDIA_ROOT, 'images/breugel_babel2.jpg')
+        kandinsky_image_path = os.path.join(MEDIA_ROOT, 'images/kandinsky.comp-8.jpg')
+
+        if not all([os.path.exists(babel_image_path), os.path.exists(kandinsky_image_path)]):
+            self.base_path = babel_image_path.rsplit('/', 1)[0]
+
+            if not os.path.isdir(self.base_path):
+                os.makedirs(self.base_path)
+
+            babel_image_file = open(babel_image_path, 'w')
+            babel_image = Image.new('CMYK', (800, 661), (255, 255, 255, 255)) 
+            babel_image.save(babel_image_file, 'JPEG')
+
+            kandinsky_image_file = open(kandinsky_image_path, 'w')
+            kandinsky_image = Image.new('CMYK', (10, 10), (255, 255, 255, 255)) 
+            kandinsky_image.save(kandinsky_image_file, 'JPEG')
+            map(lambda x: (os.fsync(x), x.close()), [kandinsky_image_file, babel_image_file])
+
     def tearDown(self):
         settings.MEDIA_ROOT = self.media_root
         settings.MEDIA_URL = self.media_url
