@@ -9,7 +9,7 @@ from django.utils.encoding import smart_str
 
 import oembed
 from oembed.consumer import OEmbedConsumer
-from oembed.exceptions import OEmbedMissingEndpoint
+from oembed.exceptions import OEmbedException, OEmbedMissingEndpoint
 from oembed.providers import DjangoProvider, HTTPProvider
 
 
