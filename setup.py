@@ -1,15 +1,13 @@
 import os
 from setuptools import setup, find_packages
 
-from oembed import VERSION
-
 f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
 readme = f.read()
 f.close()
 
 setup(
     name='djangoembed',
-    version=".".join(map(str, VERSION)),
+    version="0.1",
     description='rich media consuming/providing for django',
     long_description=readme,
     author='Charles Leifer',
