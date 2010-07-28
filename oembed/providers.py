@@ -461,7 +461,7 @@ class DjangoProvider(BaseProvider):
                 current_width = image_field.width
                 current_height = image_field.height
             except IOError:
-                return None, None, None
+                return (image_field.url, 0, 0) 
         
         # determine if resizing needs to be done (will not scale up)
         if current_width < new_width:
