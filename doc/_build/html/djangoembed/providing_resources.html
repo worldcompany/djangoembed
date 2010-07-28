@@ -95,7 +95,7 @@ acts as a proxy layer that handles fetching resources and validating them.</p>
 for you.  Here is what the Flickr provider looks like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FlickrProvider</span><span class="p">(</span><span class="n">HTTPProvider</span><span class="p">):</span>
     <span class="n">endpoint_url</span> <span class="o">=</span> <span class="s">&#39;http://www.flickr.com/services/oembed/&#39;</span>
-    <span class="n">regex_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?&#39;</span><span class="p">]</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="s">&#39;http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?&#39;</span>
 </pre></div>
 </div>
 </div>

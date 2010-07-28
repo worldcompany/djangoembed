@@ -1,5 +1,5 @@
 *.pyc
-*.doctree
+doctrees/
 build/
 src/
 pip-log.txt

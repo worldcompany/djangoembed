@@ -56,7 +56,7 @@ for you.  Here is what the Flickr provider looks like::
 
     class FlickrProvider(HTTPProvider):
         endpoint_url = 'http://www.flickr.com/services/oembed/'
-        regex_list = ['http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?']
+        regex = 'http://(?:www\.)?flickr\.com/photos/\S+?/(?:sets/)?\d+/?'
 
 
 DjangoProvider
