@@ -42,7 +42,7 @@ RESOURCE_CHOICES = (
 # url for matching inline urls, which is a fairly tricky business
 URL_PATTERN = '(https?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_|])'
 URL_RE = re.compile(URL_PATTERN)
-STANDALONE_URL_RE = re.compile('\s*' + URL_PATTERN + '\s*')
+STANDALONE_URL_RE = re.compile('^\s*' + URL_PATTERN + '\s*$')
 
 
 # oembed can parse HTML!
