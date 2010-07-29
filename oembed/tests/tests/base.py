@@ -43,6 +43,10 @@ class BaseOEmbedTestCase(TestCase):
         settings.MEDIA_ROOT = MEDIA_ROOT
         settings.MEDIA_URL = MEDIA_URL
 
+        self.template_dirs = settings.TEMPLATE_DIRS
+        cur_dir = os.path.dirname(__file__)
+        settings.TEMPLATE_DIRS = [os.path.join(os.path.dirname(cur_dir), 'templates')]
+
         babel_image_path = os.path.join(MEDIA_ROOT, 'images/breugel_babel2.jpg')
         kandinsky_image_path = os.path.join(MEDIA_ROOT, 'images/kandinsky.comp-8.jpg')
 
@@ -64,6 +68,7 @@ class BaseOEmbedTestCase(TestCase):
     def tearDown(self):
         settings.MEDIA_ROOT = self.media_root
         settings.MEDIA_URL = self.media_url
+        settings.TEMPLATE_DIRS = self.template_dirs
 
     def _sort_by_pk(self, list_or_qs):
         # decorate, sort, undecorate using the pk of the items
