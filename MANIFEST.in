@@ -2,4 +2,4 @@ include CHANGELOG.txt
 include INSTALL.txt
 include LICENSE.txt
 include MANIFEST.in
-include README.txt
+include README.rst
