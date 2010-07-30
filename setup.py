@@ -12,13 +12,16 @@ setup(
     long_description=readme,
     author='Charles Leifer',
     author_email='coleifer@gmail.com',
-    url='http://github.com/coleifer/djangoembed/tree/master',
+    url='http://github.com/worldcompany/djangoembed/tree/master',
     packages=find_packages(),
     package_data = {
         'oembed': [
             'templates/*.html',
             'templates/*/*.html',
             'templates/*/*/*.html',
+            'tests/templates/*.html',
+            'tests/templates/*/*.html',
+            'tests/templates/*/*/*.html',
         ],
     },
     classifiers=[
