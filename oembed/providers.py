@@ -529,7 +529,7 @@ class DjangoProvider(BaseProvider):
         # resize image if we have a photo, otherwise use the given maximums
         if self.resource_type == 'photo' and self.get_image(obj):
             self.resize_photo(obj, mapping, maxwidth, maxheight)
-        elif self.resource_type in ('html', 'rich', 'photo'):
+        elif self.resource_type in ('video', 'rich', 'photo'):
             width, height = size_to_nearest(
                 maxwidth,
                 maxheight,
