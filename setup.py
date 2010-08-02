@@ -7,7 +7,7 @@ f.close()
 
 setup(
     name='djangoembed',
-    version="0.1",
+    version='0.1.1',
     description='rich media consuming/providing for django',
     long_description=readme,
     author='Charles Leifer',
