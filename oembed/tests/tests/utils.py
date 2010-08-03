@@ -36,9 +36,9 @@ class OEmbedUtilsTestCase(BaseOEmbedTestCase):
         self.assertEqual('/a/b/', relative_to_full('/a/b/', ''))
     
     def test_load_class(self):
-        parser_class = load_class('oembed.parsers.base.HTMLParser')
+        parser_class = load_class('oembed.parsers.html.HTMLParser')
         self.assertEqual(parser_class.__name__, 'HTMLParser')
-        self.assertEqual(parser_class.__module__, 'oembed.parsers.base')
+        self.assertEqual(parser_class.__module__, 'oembed.parsers.html')
     
     def test_cleaned_sites(self):
         sites = Site.objects.all()

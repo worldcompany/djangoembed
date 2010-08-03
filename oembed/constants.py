@@ -4,8 +4,8 @@ from django.conf import settings
 
 
 # the oembed consumer can work with different parsers!
-OEMBED_TEXT_PARSER = getattr(settings, 'OEMBED_TEXT_PARSER', 'oembed.parsers.base.TextParser')
-OEMBED_HTML_PARSER = getattr(settings, 'OEMBED_HTML_PARSER', 'oembed.parsers.base.HTMLParser')
+OEMBED_TEXT_PARSER = getattr(settings, 'OEMBED_TEXT_PARSER', 'oembed.parsers.text.TextParser')
+OEMBED_HTML_PARSER = getattr(settings, 'OEMBED_HTML_PARSER', 'oembed.parsers.html.HTMLParser')
 
 
 # the oembed image processor supports different backends!

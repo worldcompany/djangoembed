@@ -1,7 +1,8 @@
 import oembed
 
 from oembed.tests.tests.base import BaseOEmbedTestCase
-from oembed.parsers.base import TextParser, TextBlockParser, HTMLParser
+from oembed.parsers.text import TextParser, TextBlockParser
+from oembed.parsers.html import HTMLParser
 
 
 class TextBlockParserTestCase(BaseOEmbedTestCase):
