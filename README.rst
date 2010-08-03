@@ -98,3 +98,12 @@ You can consume oembed objects in python as well::
         <a href="http://www.youtube.com/user/botmib">botmib</a>
       </p>
     </div>'
+
+Troubleshooting
+---------------
+
+Problem: You try the youtube embed example, but all you get is a link to the youtube video.
+
+Solution: Djangoembed uses fixtures to load data about oembed providors like Youtube in to the database.  Try fooling around with syncdb (or migrations, if you're running South) until there are objects of type oembed.storedprovider.
+
+If you have another problem, consider looking through the more extensive docs in the project's doc subdirectory.
