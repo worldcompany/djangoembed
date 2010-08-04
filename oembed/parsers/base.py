@@ -64,6 +64,11 @@ class BaseParser(object):
         context = context or Context()
         context['maxwidth'] = maxwidth
         context['maxheight'] = maxheight
+
+        try:
+            text = unicode(text)
+        except UnicodeDecodeError:
+            text = unicode(text.decode('utf-8'))
         
         return self.parse_data(text, maxwidth, maxheight, template_dir,
                                context, urlize_all_links)
