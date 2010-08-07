@@ -16,9 +16,11 @@ setup(
     packages=find_packages(),
     package_data = {
         'oembed': [
+            'fixtures/*.json',
             'templates/*.html',
             'templates/*/*.html',
             'templates/*/*/*.html',
+            'tests/fixtures/*.json',
             'tests/templates/*.html',
             'tests/templates/*/*.html',
             'tests/templates/*/*/*.html',
