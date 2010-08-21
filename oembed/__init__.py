@@ -4,9 +4,8 @@
 #   :   ,    , .'
 #   '. (___.'_/
 #    ((-((-'' 
-VERSION = (0, 1, 0)
+VERSION = (0, 1, 1)
 
-from django.conf import settings
 from oembed.sites import site
 
 
