@@ -1,7 +1,7 @@
 from django.contrib.sites.models import Site
 
 from oembed.tests.tests.base import BaseOEmbedTestCase
-from oembed.utils import size_to_nearest, relative_to_full, load_class, cleaned_sites
+from oembed.utils import size_to_nearest, relative_to_full, load_class, cleaned_sites, scale
 
 class OEmbedUtilsTestCase(BaseOEmbedTestCase):
     def test_size_to_nearest(self):
@@ -59,3 +59,12 @@ class OEmbedUtilsTestCase(BaseOEmbedTestCase):
         self.assertEquals(cleaned[mobile_site.pk][1], 'Mobile Site')
         self.assertEquals(cleaned[mobile_site.pk][2], 'http://m.testsite.com')
         self.assertEquals(cleaned[mobile_site.pk][0], 'https?:\/\/(?:www[^\.]*\.)?m.testsite.com')
+    
+    def test_scale(self):
+        self.assertEqual(scale(640, 480, 320), (320, 240))
+        self.assertEqual(scale(640, 480, 500, 240), (320, 240))
+        self.assertEqual(scale(640, 480, 320, 500), (320, 240))
+        self.assertEqual(scale(640, 480, 320, 240), (320, 240))
+        
+        self.assertEqual(scale(640, 480, 700), (640, 480))
+        self.assertEqual(scale(640, 480, 700, 500), (640, 480))

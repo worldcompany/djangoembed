@@ -17,7 +17,8 @@ from oembed.constants import OEMBED_ALLOWED_SIZES, OEMBED_THUMBNAIL_SIZE
 from oembed.exceptions import OEmbedException, OEmbedHTTPException
 from oembed.image_processors import image_processor
 from oembed.resources import OEmbedResource
-from oembed.utils import fetch_url, get_domain, mock_request, cleaned_sites, size_to_nearest, relative_to_full
+from oembed.utils import (fetch_url, get_domain, mock_request, cleaned_sites, 
+    size_to_nearest, relative_to_full, scale)
 
 
 resolver = get_resolver(None)
@@ -469,14 +470,7 @@ class DjangoProvider(BaseProvider):
                 return (image_field.url, current_width, current_height)
         
         # calculate ratios
-        width_percent = (new_width / float(current_width))
-        if new_height:
-            height_percent = (new_height / float(current_height))
-        
-        if not new_height or width_percent < height_percent:
-            new_height = int((float(current_height) * float(width_percent)))
-        else:
-            new_width = int((float(current_width) * float(height_percent)))
+        new_width, new_height = scale(current_width, current_height, new_width, new_height)
         
         # use the image_processor defined in the settings, or PIL by default
         return self._meta.image_processor.resize(image_field, new_width, new_height)

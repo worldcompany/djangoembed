@@ -50,6 +50,24 @@ def size_to_nearest(width=None, height=None, allowed_sizes=OEMBED_ALLOWED_SIZES,
                     maxheight = size[1]
     return maxwidth, maxheight
 
+def scale(width, height, new_width, new_height=None):
+    # determine if resizing needs to be done (will not scale up)
+    if width < new_width:
+        if not new_height or height < new_height:
+            return (width, height)
+    
+    # calculate ratios
+    width_percent = (new_width / float(width))
+    if new_height:
+        height_percent = (new_height / float(height))
+    
+    if not new_height or width_percent < height_percent:
+        new_height = int((float(height) * float(width_percent)))
+    else:
+        new_width = int((float(width) * float(height_percent)))
+    
+    return (new_width, new_height)
+
 def fetch_url(url, method='GET', user_agent='django-oembed', timeout=SOCKET_TIMEOUT):
     """
     Fetch response headers and data from a URL, raising a generic exception
