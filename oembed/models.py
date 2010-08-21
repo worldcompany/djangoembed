@@ -27,7 +27,8 @@ class StoredOEmbed(models.Model):
         ordering = ('-date_added',)
         verbose_name = 'stored OEmbed'
         verbose_name_plural = 'stored OEmbeds'
-        unique_together = ('match', 'maxwidth', 'maxheight')
+        if 'mysql' not in settings.DATABASES['default']['ENGINE']:
+            unique_together = ('match', 'maxwidth', 'maxheight')
 
     def __unicode__(self):
         return self.match
