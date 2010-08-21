@@ -1,8 +1,6 @@
 import re
 
 from BeautifulSoup import BeautifulSoup # use BS to parse HTML (it's easy!)
-import lxml.html # use lxml.html to parse HTML (it's fast!)
-import StringIO
 
 import oembed
 from oembed.constants import OEMBED_BLOCK_ELEMENTS, URL_RE, STANDALONE_URL_RE
@@ -65,41 +63,3 @@ class HTMLParser(BaseParser):
                 urls |= block_parser.extract_urls(unicode(user_url))
         
         return urls
-
-
-class LXMLParser(BaseParser):
-    """
-    Use lxml.html, and lxml.etree for fast html processing.  This feature
-    is not fully implemented yet.
-    """
-    def parse_data(self, text, maxwidth, maxheight, template_dir, context,
-                   urlize_all_links):
-        block_parser = TextBlockParser()
-        text_parser = TextParser()
-        
-        try:
-            parse_tree = lxml.html.fragment_fromstring(text, create_parent='div')
-        except lxml.etree.XMLSyntaxError:
-            return text
-        
-        if not parse_tree.getchildren():
-            elements = [parse_tree]
-        else:
-            elements = parse_tree.xpath('.//*[not(self::a) and contains(text(), "http://")]')
-        
-        for element in elements:
-            replacement = block_parser.parse(
-                element.text,
-                maxwidth,
-                maxheight,
-                template_dir,
-                context,
-                urlize_all_links
-            )
-            if replacement != element.text:
-                element.text = ''
-                new_elements = lxml.html.fragments_fromstring(replacement)
-                for (i, e) in enumerate(new_elements):
-                    element.insert(i, e)
-        
-        return lxml.html.tostring(parse_tree)
