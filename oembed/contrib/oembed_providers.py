@@ -8,7 +8,7 @@ from django.contrib.sites.models import Site
 import oembed
 from oembed.providers import BaseProvider
 from oembed.resources import OEmbedResource
-from oembed.utils import size_to_nearest
+from oembed.utils import size_to_nearest, scale
 
 
 class GoogleMapsProvider(BaseProvider):
