@@ -1,3 +1,4 @@
 PIL
 BeautifulSoup==3.0.8.1
-lxml==2.2.6
+simplejson
+httplib2
