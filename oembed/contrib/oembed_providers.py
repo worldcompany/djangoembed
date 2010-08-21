@@ -1,4 +1,5 @@
 import Image
+import os
 import re
 
 from django.conf import settings
@@ -52,7 +53,7 @@ class StaticMediaProvider(BaseProvider):
     media_url = settings.MEDIA_URL.strip('/')
     if not media_url.startswith('http'):
         all_domains = Site.objects.values_list('domain', flat=True)
-        media_url = 'http://[^\s]*?(%s)/%s' % ('|'.join(all_domains), media_url)
+        media_url = 'http://[^\s]*?(?:%s)/%s' % ('|'.join(all_domains), media_url)
     
     regex = re.compile(r'^%s/([^\s]+\.(jpg|gif|png))' % media_url, re.I)
     provides = False
