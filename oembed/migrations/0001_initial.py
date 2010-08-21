@@ -1,7 +1,10 @@
 # encoding: utf-8
 import datetime
+
 from south.db import db
 from south.v2 import SchemaMigration
+
+from django.conf import settings
 from django.db import models
 
 class Migration(SchemaMigration):
@@ -24,7 +27,8 @@ class Migration(SchemaMigration):
         db.send_create_signal('oembed', ['StoredOEmbed'])
 
         # Adding unique constraint on 'StoredOEmbed', fields ['match', 'maxwidth', 'maxheight']
-        db.create_unique('oembed_storedoembed', ['match', 'maxwidth', 'maxheight'])
+        if 'mysql' not in settings.DATABASES['default']['ENGINE']:
+            db.create_unique('oembed_storedoembed', ['match', 'maxwidth', 'maxheight'])
 
         # Adding model 'StoredProvider'
         db.create_table('oembed_storedprovider', (
@@ -55,7 +59,8 @@ class Migration(SchemaMigration):
         db.delete_table('oembed_storedoembed')
 
         # Removing unique constraint on 'StoredOEmbed', fields ['match', 'maxwidth', 'maxheight']
-        db.delete_unique('oembed_storedoembed', ['match', 'maxwidth', 'maxheight'])
+        if 'mysql' not in settings.DATABASES['default']['ENGINE']:
+            db.delete_unique('oembed_storedoembed', ['match', 'maxwidth', 'maxheight'])
 
         # Deleting model 'StoredProvider'
         db.delete_table('oembed_storedprovider')
