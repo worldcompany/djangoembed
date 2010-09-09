@@ -61,3 +61,20 @@ class ConsumerTestCase(BaseOEmbedTestCase):
         # with resource_type
         self.assertEqual(self.oembed_client.strip(test_string, resource_type='photo'), expected)
         self.assertEqual(self.oembed_client.strip(test_string, resource_type='link'), test_string)
+    
+    def test_strip_html(self):
+        test_string = '<a href="%(match)s">%(match)s</a> <p>%(no_match)s</p>' % \
+            {'match': self.category_url, 'no_match': 'http://www.google.com'}
+        expected = test_string
+        
+        self.assertEqual(self.oembed_client.strip(test_string), expected)
+    
+    def test_strip_html_failure(self):
+        # show how strip can fail when handling html - it picks up the match
+        # in the p tag then replaces it everywhere, including in the a tags
+        test_string = '<a href="%(match)s">%(match)s</a> <p>%(match)s</p> <p>%(no_match)s</p>' % \
+            {'match': self.category_url, 'no_match': 'http://www.google.com'}
+        expected = test_string
+        actual = '<a href=""></a> <p></p> <p>http://www.google.com</p>'
+        
+        self.assertEqual(self.oembed_client.strip(test_string), actual)
