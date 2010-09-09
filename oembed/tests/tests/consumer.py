@@ -48,3 +48,16 @@ class ConsumerTestCase(BaseOEmbedTestCase):
         
         embeds = self.oembed_client.extract_oembeds_html('<p><a href="/some-link/">%s</a></p>' % self.category_url)
         self.assertEqual(len(embeds), 0)
+    
+    def test_strip(self):
+        test_string = 'testing [%s] [http://www.google.com]' % self.category_url
+        expected = 'testing [] [http://www.google.com]'
+        
+        self.assertEqual(self.oembed_client.strip(test_string), expected)
+        
+        # with width & height
+        self.assertEqual(self.oembed_client.strip(test_string, 600, 400), expected)
+        
+        # with resource_type
+        self.assertEqual(self.oembed_client.strip(test_string, resource_type='photo'), expected)
+        self.assertEqual(self.oembed_client.strip(test_string, resource_type='link'), test_string)
