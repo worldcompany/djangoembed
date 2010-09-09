@@ -17,8 +17,7 @@ def oembed_filter(input, args=None):
     if args:
         dimensions = args.lower().split('x')
         if len(dimensions) != 2:
-            raise template.TemplateSyntaxError("OEmbed's optional WIDTHxHEIGH" \
-                "argument requires WIDTH and HEIGHT to be positive integers.")
+            raise template.TemplateSyntaxError("Usage: [width]x[height], e.g. 600x400")
         width, height = map(int, dimensions)
     else:
         width = height = None
@@ -26,11 +25,10 @@ def oembed_filter(input, args=None):
     client = OEmbedConsumer()
     return mark_safe(client.parse(input, width, height))
 
-oembed_filter.is_safe = True
-oembed_filter = stringfilter(oembed_filter)
 register.filter('oembed', oembed_filter)
 
-def extract_oembeds(input, args=None):
+@register.filter
+def extract_oembeds(text, args=None):
     """
     Extract oembed resources from a block of text.  Returns a list
     of dictionaries.
@@ -52,15 +50,35 @@ def extract_oembeds(input, args=None):
 
         if len(dimensions) == 2:
             width, height = map(lambda x: int(x), dimensions)
-        elif len(dimensions) != 0:
-            raise template.TemplateSyntaxError("OEmbed's optional WIDTHxHEIGH" \
-                "T argument requires WIDTH and HEIGHT to be positive integers.")
 
     client = OEmbedConsumer()
-    return client.extract(input, width, height, resource_type)
+    return client.extract(text, width, height, resource_type)
 
-extract_oembeds.is_safe = True
-register.filter('extract_oembeds', extract_oembeds)
+
+@register.filter
+def strip_oembeds(text, args=None):
+    """
+    Take a block of text and strip all the embeds from it, optionally taking
+    a maxwidth, maxheight / resource_type
+    
+    Usage:
+    {{ post.content|strip_embeds }}
+    
+    {{ post.content|strip_embeds:"600x600xphoto" }}
+    
+    {{ post.content|strip_embeds:"video" }}
+    """
+    resource_type = width = height = None
+    if args:
+        dimensions = args.lower().split('x')
+        if len(dimensions) in (3, 1):
+            resource_type = dimensions.pop()
+
+        if len(dimensions) == 2:
+            width, height = map(lambda x: int(x), dimensions)
+    
+    client = OEmbedConsumer()
+    return mark_safe(client.strip(text, width, height, resource_type))
 
 
 class OEmbedNode(template.Node):

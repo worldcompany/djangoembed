@@ -46,6 +46,22 @@ class OEmbedTemplateTagTestCase(BaseOEmbedTestCase):
         result = t.render(c)
         self.assertEqual(result, self.blog_url)
     
+    def test_strip_filter(self):
+        t = Template('{% load oembed_tags %}{{ test_string|strip_oembeds }}')
+        c = Context({'test_string': 'testing [%s]' % self.category_url})
+        result = t.render(c)
+        self.assertEqual(result, 'testing []')
+        
+        t = Template('{% load oembed_tags %}{{ test_string|strip_oembeds:"photo" }}')
+        c = Context({'test_string': 'testing [%s]' % self.category_url})
+        result = t.render(c)
+        self.assertEqual(result, 'testing []')
+        
+        t = Template('{% load oembed_tags %}{{ test_string|strip_oembeds:"link" }}')
+        c = Context({'test_string': 'testing [%s]' % self.category_url})
+        result = t.render(c)
+        self.assertEqual(result, c['test_string'])
+    
     def test_autodiscover(self):
         t = Template('{% load oembed_tags %}{% oembed_autodiscover obj %}')
         c = Context({'obj': Category.objects.get(pk=1)})
