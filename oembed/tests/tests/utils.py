@@ -11,18 +11,41 @@ class OEmbedUtilsTestCase(BaseOEmbedTestCase):
         self.assertEqual((100, 100), size_to_nearest(100, 100, sizes, False))
         self.assertEqual((200, 300), size_to_nearest(250, 500, sizes, False))
         
+        # if force_fit is False then jump to the largest on None
         self.assertEqual((100, 300), size_to_nearest(150, None, sizes, False))
         self.assertEqual((300, 100), size_to_nearest(None, 150, sizes, False))
 
+        # if force_fit is True then scale to the nearest size for the one
+        # that is defined
+        self.assertEqual((100, 100), size_to_nearest(150, None, sizes, True))
+        self.assertEqual((100, 100), size_to_nearest(None, 150, sizes, True))
+
+        # if both dimensions are None use the largest possible
+        self.assertEqual((300, 300), size_to_nearest(None, None, sizes, False))
+        self.assertEqual((300, 300), size_to_nearest(None, None, sizes, True))
+
+        # if a dimension is too small scale it up to the minimum
+        self.assertEqual((100, 300), size_to_nearest(50, 300, sizes, False))
+        self.assertEqual((100, 100), size_to_nearest(50, 300, sizes, True))
+        self.assertEqual((100, 300), size_to_nearest(50, None, sizes, False))
+        self.assertEqual((100, 100), size_to_nearest(50, None, sizes, True))
+
+        # test when things are too large
         self.assertEqual((200, 200), size_to_nearest(400, 200, sizes, True))
         self.assertEqual((100, 100), size_to_nearest(100, 100, sizes, True))
         self.assertEqual((200, 200), size_to_nearest(250, 500, sizes, True))
         
+        # test Nones around the edges
         self.assertEqual((100, 100), size_to_nearest(100, None, sizes, True))
         self.assertEqual((100, 100), size_to_nearest(None, 100, sizes, True))
         
+    def test_size_to_nearest_defaults(self):
         self.assertEqual((800, 600), size_to_nearest(800, 600))
         self.assertEqual((800, 600), size_to_nearest(850, 650))
+
+        self.assertEqual((800, 300), size_to_nearest(None, 350))
+        self.assertEqual((400, 800), size_to_nearest(450, None))
+
         self.assertEqual((800, 300), size_to_nearest(None, 350))
         self.assertEqual((400, 800), size_to_nearest(450, None))
         
