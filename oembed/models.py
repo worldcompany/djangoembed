@@ -1,3 +1,4 @@
+from django import VERSION
 from django.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -6,6 +7,12 @@ from django.utils import simplejson
 
 from oembed.constants import RESOURCE_CHOICES
 from oembed.providers import HTTPProvider
+
+
+if VERSION < (1, 2):
+    db_engine = settings.DATABASE_ENGINE
+else:
+    db_engine = settings.DATABASES['default']['ENGINE']
 
 
 class StoredOEmbed(models.Model):
@@ -27,7 +34,7 @@ class StoredOEmbed(models.Model):
         ordering = ('-date_added',)
         verbose_name = 'stored OEmbed'
         verbose_name_plural = 'stored OEmbeds'
-        if 'mysql' not in settings.DATABASES['default']['ENGINE']:
+        if 'mysql' not in db_engine:
             unique_together = ('match', 'maxwidth', 'maxheight')
 
     def __unicode__(self):
