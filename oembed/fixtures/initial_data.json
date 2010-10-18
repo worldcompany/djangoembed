@@ -730,5 +730,17 @@
       "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
       "resource_type": "video"
     }
+  },
+  {
+    "pk": 62,
+    "model": "oembed.storedprovider",
+    "fields": {
+      "regex": "http://gist.github.com/*",
+      "wildcard_regex": "http://gist.github.com/*",
+      "provides": false,
+      "active": false,
+      "endpoint_url": "http://api.embed.ly/v1/api/oembed",
+      "resource_type": "rich"
+    }
   }
 ]
