@@ -83,6 +83,13 @@ class ModelTestCase(BaseOEmbedTestCase):
         self.assertQuerysetEqual(r.videos.all(), [])
         self.assertQuerysetEqual(r.photos.all(), am_queryset.filter(url=self.flickr_url))
 
+        r.content = 'Just text please'
+        r.save()
+
+        self.assertQuerysetEqual(r.media.all(), [])
+        self.assertQuerysetEqual(r.videos.all(), [])
+        self.assertQuerysetEqual(r.photos.all(), [])
+
     def test_internal_media_aggregation(self):
         category1 = Category.objects.get(pk=1)
         

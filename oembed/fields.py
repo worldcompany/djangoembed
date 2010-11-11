@@ -84,8 +84,6 @@ def handle_save_embeds(sender, instance, **kwargs):
     for field in instance._meta.fields:
         if isinstance(field, TextField):
             urls.extend(re.findall(URL_RE, getattr(instance, field.name)))
-    
-    if not urls: return
 
     urls = set(urls)
     for embedded_field in embedded_media_fields:
