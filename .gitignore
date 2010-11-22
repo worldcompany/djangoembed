@@ -7,3 +7,4 @@ pip-log.txt
 *~
 dist/
 *.egg-info/
+oembed/tests/media/
