@@ -1,10 +1,10 @@
 import datetime
 import re
-import simplejson
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
+from django.utils import simplejson as json
 
 from oembed.constants import DEFAULT_OEMBED_TTL, MIN_OEMBED_TTL, RESOURCE_TYPES
 from oembed.exceptions import AlreadyRegistered, NotRegistered, OEmbedMissingEndpoint, OEmbedException
@@ -180,7 +180,7 @@ class ProviderSite(object):
         """
         headers, response = fetch_url(url)
         if headers['content-type'] in ('application/json', 'text/javascript'):
-            provider_data = simplejson.loads(response)
+            provider_data = json.loads(response)
             return self.store_providers(provider_data)
     
     def store_providers(self, provider_data):

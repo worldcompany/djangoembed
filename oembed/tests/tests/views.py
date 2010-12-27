@@ -1,7 +1,6 @@
-import simplejson
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.utils import simplejson
 
 import oembed
 from oembed.models import StoredOEmbed, StoredProvider

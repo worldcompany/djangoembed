@@ -1,6 +1,6 @@
-import oembed
-import simplejson
+from django.utils import simplejson
 
+import oembed
 from oembed.exceptions import AlreadyRegistered, NotRegistered, OEmbedMissingEndpoint
 from oembed.models import StoredProvider, StoredOEmbed
 from oembed.resources import OEmbedResource

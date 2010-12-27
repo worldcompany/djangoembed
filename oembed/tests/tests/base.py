@@ -1,4 +1,3 @@
-import simplejson
 import os
 
 try: 
@@ -9,6 +8,7 @@ except ImportError:
 from django.conf import settings
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
+from django.utils import simplejson
 
 import oembed
 from oembed.providers import BaseProvider
