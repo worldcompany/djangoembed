@@ -1,4 +1,4 @@
-from django.utils.simplejson import simplejson
+from django.utils import simplejson
 
 from oembed.exceptions import OEmbedException
 
