@@ -44,7 +44,7 @@ class GoogleMapsProvider(BaseProvider):
                 map_params.append(param)
         
         data['html'] = '<iframe width="%d" height="%d" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?%s"></iframe>' % \
-            (width, height, '&amp;'.join(map_params))
+            (w, h, '&amp;'.join(map_params))
         
         return OEmbedResource.create(data)
 
