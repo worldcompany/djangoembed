@@ -1,9 +1,15 @@
 import Image
 import os
 import re
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.core.files import File
+from django.core.files.storage import default_storage
 
 import oembed
 from oembed.providers import BaseProvider
@@ -71,35 +77,42 @@ class StaticMediaProvider(BaseProvider):
         # get the path, i.e. /media/img/kitties.jpg
         image_path = re.match(self.regex, url).groups()[0]
         
-        # create the entire filename as it would be on disk
-        filename = settings.MEDIA_ROOT + image_path
-        
         # create the entire url as it would be on site, minus the filename
         base_url, ext = url.rsplit('.', 1)
                 
-        # create the file path on disk minus the extension
-        base_file, ext = filename.rsplit('.', 1)
+        # create the file path minus the extension
+        base_path, ext = image_path.rsplit('.', 1)
         
         append = '_%sx%s.%s' % (w, h, ext)
         
-        new_filename = '%s%s' % (base_file, append)
+        new_path = '%s%s' % (base_path, append)
         
-        if not os.path.isfile(new_filename):
+        if not default_storage.exists(new_path):
             # open the original to calculate its width and height
-            img = Image.open(filename)
+            source_file = default_storage.open(image_path)
+            img = Image.open(source_file)
+
+            # retrieve image format and dimensions
+            format = img.format
             img_width, img_height = img.size
-            
+
             # do the math-y parts
             new_width, new_height = scale(img_width, img_height, w, h)
             
             img = img.resize((new_width, new_height), Image.ANTIALIAS)
-            img.save(new_filename)
+
+            img_buffer = StringIO()
+            img.MAXBLOCK = 1024*1024
+            img.save(img_buffer, format=format)
+
+            source_file.close()
+            default_storage.save(new_path, File(img_buffer))
         
         new_url = '%s%s' % (base_url, append)
         
         # get just the filename, i.e. test.jpg - used for generated the title
         # of the returned oembed resource
-        image_filename = image_path.rsplit('/', 1)[1]
+        image_filename = image_path.rsplit('/', 1)[-1]
         
         data = {'type': 'photo', 'provider_name': '', 'version': '1.0',
                 'width': w, 'height': h, 'title': image_filename,
