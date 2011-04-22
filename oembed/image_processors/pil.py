@@ -11,20 +11,21 @@ from django.core.files.storage import default_storage
 
 class PIL_Resizer(object):
     def resize(self, image_field, new_width, new_height):
-        img_url, img_ext = os.path.splitext(image_field.url)
-        img_path, img_ext = os.path.splitext(image_field.name)
-        
+        img_path = image_field.name
+        base_path, img_ext = os.path.splitext(image_field.name)
+        base_url, img_ext = os.path.splitext(image_field.url)
+
         append = '_%sx%s%s' % (new_width, new_height, img_ext)
 
-        new_url = img_url + append
-        new_path = img_path + append
+        new_url = base_url + append
+        new_path = base_path + append
 
         if not default_storage.exists(new_path):
             # load a file-like object at the image path
             source_file = default_storage.open(img_path)
 
             # load up the image using PIL and retrieve format
-            img = Image.open(image_field.path)
+            img = Image.open(source_file)
             format = img.format
             
             # perform resize
