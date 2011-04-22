@@ -19,6 +19,9 @@ class OEmbedUtilsTestCase(BaseOEmbedTestCase):
         # that is defined
         self.assertEqual((100, 100), size_to_nearest(150, None, sizes, True))
         self.assertEqual((100, 100), size_to_nearest(None, 150, sizes, True))
+        self.assertEqual((200, 200), size_to_nearest(220, None, sizes, True))
+        self.assertEqual((200, 200), size_to_nearest(None, 220, sizes, True))
+
 
         # if both dimensions are None use the largest possible
         self.assertEqual((300, 300), size_to_nearest(None, None, sizes, False))

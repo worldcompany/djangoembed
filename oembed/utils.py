@@ -26,12 +26,12 @@ def size_to_nearest(width=None, height=None, allowed_sizes=OEMBED_ALLOWED_SIZES,
     if width:
         width = int(width) > minwidth and int(width) or minwidth
     elif force_fit:
-        width = minwidth
+        width = maxwidth
 
     if height:
         height = int(height) > minheight and int(height) or minheight
     elif force_fit:
-        height = minheight
+        height = maxheight
 
     for size in sorted(allowed_sizes):
         if width and not height:
