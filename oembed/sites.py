@@ -159,10 +159,18 @@ class ProviderSite(object):
                 
                 date_expires = datetime.datetime.now() + datetime.timedelta(seconds=cache_age)
                 
-                stored_oembed, created = StoredOEmbed.objects.get_or_create(
-                    match=url,
-                    maxwidth=kwargs.get('maxwidth', None),
-                    maxheight=kwargs.get('maxheight', None))
+                try:
+                    stored_oembed = StoredOEmbed.objects.get(
+                        match=url,
+                        maxwidth=kwargs.get('maxwidth', None),
+                        maxheight=kwargs.get('maxheight', None)
+                    )
+                except StoredOEmbed.DoesNotExist:
+                    stored_oembed = StoredOEmbed(
+                        match=url,
+                        maxwidth=kwargs.get('maxwidth', None),
+                        maxheight=kwargs.get('maxheight', None)
+                    )
                 
                 stored_oembed.response_json = resource.json
                 stored_oembed.resource_type = resource.type
