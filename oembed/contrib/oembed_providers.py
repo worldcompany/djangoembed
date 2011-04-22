@@ -8,7 +8,7 @@ except ImportError:
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
 import oembed
@@ -106,7 +106,7 @@ class StaticMediaProvider(BaseProvider):
             img.save(img_buffer, format=format)
 
             source_file.close()
-            default_storage.save(new_path, File(img_buffer))
+            default_storage.save(new_path, ContentFile(img_buffer.getvalue()))
         
         new_url = '%s%s' % (base_url, append)
         

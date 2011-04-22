@@ -5,7 +5,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
 
@@ -37,6 +37,6 @@ class PIL_Resizer(object):
             img.save(img_buffer, format=format)
 
             # save data
-            default_storage.save(new_path, File(img_buffer))
+            default_storage.save(new_path, ContentFile(img_buffer.getvalue()))
         
         return (new_url, new_width, new_height)
