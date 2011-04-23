@@ -4,8 +4,18 @@ import re
 import time
 from urllib import urlencode
 
+try:
+    import Image
+except ImportError:
+    from PIL import Image
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.core.files import storage
 from django.core.urlresolvers import get_resolver
 from django.db.models.fields import DateTimeField, DateField
 from django.db.models.fields.files import ImageField, ImageFieldFile
@@ -459,8 +469,9 @@ class DjangoProvider(BaseProvider):
         else:
             # use PIL
             try:
-                current_width = image_field.width
-                current_height = image_field.height
+                file_obj = storage.default_storage.open(image_field.name, 'rb')
+                img_obj = Image.open(file_obj)
+                current_width, current_height = img_obj.size
             except IOError:
                 return (image_field.url, 0, 0) 
         

@@ -26,7 +26,7 @@
     "model": "tests.category", 
     "fields": {
       "width": null, 
-      "image": "images/breugel_babel2.jpg", 
+      "image": "images/test_image1.jpg", 
       "name": "Category 1", 
       "height": null
     }
@@ -36,7 +36,7 @@
     "model": "tests.category", 
     "fields": {
       "width": null, 
-      "image": "images/kandinsky.comp-8.jpg", 
+      "image": "", 
       "name": "Category 2", 
       "height": null
     }

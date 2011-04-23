@@ -1,10 +1,13 @@
-import Image
 import os
 import re
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
+try: 
+    import Image
+except ImportError:
+    from PIL import Image
 
 from django.conf import settings
 from django.contrib.sites.models import Site

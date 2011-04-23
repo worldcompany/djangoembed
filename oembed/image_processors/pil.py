@@ -1,9 +1,12 @@
-import Image
 import os
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
+try: 
+    import Image
+except ImportError:
+    from PIL import Image
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage

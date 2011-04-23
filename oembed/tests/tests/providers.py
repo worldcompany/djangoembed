@@ -67,12 +67,12 @@ class ProviderTestCase(BaseOEmbedTestCase):
         
         w, h = category_data['width'], category_data['height']
         
-        self.assertEqual(category_data['url'], 'http://example.com/media/images/breugel_babel2_%sx%s.jpg' % (w, h))
+        self.assertEqual(category_data['url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (w, h))
 
         tw, th = category_data['thumbnail_width'], category_data['thumbnail_height']
 
         self.assertEqual(category_data['thumbnail_width'], 200)
-        self.assertEqual(category_data['thumbnail_url'], 'http://example.com/media/images/breugel_babel2_%sx%s.jpg' % (tw, th))
+        self.assertEqual(category_data['thumbnail_url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (tw, th))
     
     def test_django_provider_image_sizing(self):
         resource = oembed.site.embed(self.category_url, maxwidth=450)
@@ -83,7 +83,7 @@ class ProviderTestCase(BaseOEmbedTestCase):
         self.assertEqual(category_data['width'], 400)
         w, h = category_data['width'], category_data['height']
         
-        self.assertEqual(category_data['url'], 'http://example.com/media/images/breugel_babel2_%sx%s.jpg' % (w, h))
+        self.assertEqual(category_data['url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (w, h))
 
         # specify both
         resource = oembed.site.embed(self.category_url, maxwidth=450, maxheight=200)
@@ -94,7 +94,7 @@ class ProviderTestCase(BaseOEmbedTestCase):
         self.assertEqual(category_data['height'], 200)
         w, h = category_data['width'], category_data['height']
         
-        self.assertEqual(category_data['url'], 'http://example.com/media/images/breugel_babel2_%sx%s.jpg' % (w, h))
+        self.assertEqual(category_data['url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (w, h))
 
     def test_django_provider_url_match(self):
         # even though the sites table has example.com having no www., the regex

@@ -16,6 +16,8 @@ INSTALLED_APPS = [
     'oembed',
 ]
 
+DEFAULT_FILE_STORAGE = 'oembed.tests.storage.DummyMemoryStorage'
+
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.load_template_source',
 )

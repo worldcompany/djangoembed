@@ -1,11 +1,17 @@
 import os
-
+from urllib2 import urlparse
 try: 
     import Image
 except ImportError:
     from PIL import Image
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 from django.conf import settings
+from django.core.files import storage
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.test import TestCase
 from django.utils import simplejson
@@ -14,7 +20,9 @@ import oembed
 from oembed.providers import BaseProvider
 from oembed.resources import OEmbedResource
 
-from oembed.tests.settings import MEDIA_ROOT, MEDIA_URL
+from oembed.tests.settings import MEDIA_ROOT, MEDIA_URL, DEFAULT_FILE_STORAGE
+from oembed.tests.storage import DummyMemoryStorage
+
 
 class BaseOEmbedTestCase(TestCase):
     fixtures = ['oembed_testdata.json']
@@ -29,7 +37,7 @@ class BaseOEmbedTestCase(TestCase):
     blog_url = 'http://example.com/testapp/blog/2010/may/01/entry-1/'
     rich_url = 'http://example.com/testapp/rich/rich-one/'
     
-    category_embed = '<img src="http://example.com/media/images/breugel_babel2_800x661.jpg" alt="Category 1" ></img>'
+    category_embed = '<img src="http://example.com/media/images/test_image1_800x600.jpg" alt="Category 1" ></img>'
     
     def setUp(self):
         "Set up test environment"
@@ -39,36 +47,41 @@ class BaseOEmbedTestCase(TestCase):
         # refresh the attribute-cached time the db providers were last updated
         oembed.site._db_updated = None
         
+        self.storage = DummyMemoryStorage()
+        
+        # monkeypatch default_storage
+        self.orig_default_storage = storage.default_storage
+        storage.default_storage = self.storage
+        
+        # swap media root & media url
         self.media_root, self.media_url = settings.MEDIA_ROOT, settings.MEDIA_URL
         settings.MEDIA_ROOT = MEDIA_ROOT
         settings.MEDIA_URL = MEDIA_URL
 
+        # swap out template dirs
         self.template_dirs = settings.TEMPLATE_DIRS
         cur_dir = os.path.dirname(__file__)
         settings.TEMPLATE_DIRS = [os.path.join(os.path.dirname(cur_dir), 'templates')]
+        
+        # swap out file storage backend
+        self.orig_file_storage = settings.DEFAULT_FILE_STORAGE
+        settings.DEFAULT_FILE_STORAGE = DEFAULT_FILE_STORAGE
 
-        babel_image_path = os.path.join(MEDIA_ROOT, 'images/breugel_babel2.jpg')
-        kandinsky_image_path = os.path.join(MEDIA_ROOT, 'images/kandinsky.comp-8.jpg')
-
-        if not all([os.path.exists(babel_image_path), os.path.exists(kandinsky_image_path)]):
-            self.base_path = babel_image_path.rsplit('/', 1)[0]
-
-            if not os.path.isdir(self.base_path):
-                os.makedirs(self.base_path)
-
-            babel_image_file = open(babel_image_path, 'w')
-            babel_image = Image.new('CMYK', (800, 661), (255, 255, 255, 255)) 
-            babel_image.save(babel_image_file, 'JPEG')
-
-            kandinsky_image_file = open(kandinsky_image_path, 'w')
-            kandinsky_image = Image.new('CMYK', (10, 10), (255, 255, 255, 255)) 
-            kandinsky_image.save(kandinsky_image_file, 'JPEG')
-            map(lambda x: (os.fsync(x), x.close()), [kandinsky_image_file, babel_image_file])
+        # create 2 images for testing
+        test_image = Image.new('CMYK', (1024, 768), (255, 255, 255, 255))
+        self.test_img1_buffer = StringIO()
+        test_image.save(self.test_img1_buffer, 'JPEG')
+        
+        self.test_img1_file = ContentFile(self.test_img1_buffer.getvalue())
+        self.test_img1_location = 'images/test_image1.jpg'
+        storage.default_storage.save(self.test_img1_location, self.test_img1_file)
 
     def tearDown(self):
         settings.MEDIA_ROOT = self.media_root
         settings.MEDIA_URL = self.media_url
         settings.TEMPLATE_DIRS = self.template_dirs
+        settings.DEFAULT_FILE_STORAGE = self.orig_file_storage
+        storage.default_storage = self.orig_default_storage
 
     def _sort_by_pk(self, list_or_qs):
         # decorate, sort, undecorate using the pk of the items
