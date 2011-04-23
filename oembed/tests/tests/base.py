@@ -69,12 +69,12 @@ class BaseOEmbedTestCase(TestCase):
 
         # create 2 images for testing
         test_image = Image.new('CMYK', (1024, 768), (255, 255, 255, 255))
-        self.test_img1_buffer = StringIO()
-        test_image.save(self.test_img1_buffer, 'JPEG')
+        self.test_img_buffer = StringIO()
+        test_image.save(self.test_img_buffer, 'JPEG')
         
-        self.test_img1_file = ContentFile(self.test_img1_buffer.getvalue())
-        self.test_img1_location = 'images/test_image1.jpg'
-        storage.default_storage.save(self.test_img1_location, self.test_img1_file)
+        self.test_img_file = ContentFile(self.test_img_buffer.getvalue())
+        self.test_img_location = 'images/test_image1.jpg'
+        storage.default_storage.save(self.test_img_location, self.test_img_file)
 
     def tearDown(self):
         settings.MEDIA_ROOT = self.media_root

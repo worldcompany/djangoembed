@@ -1,6 +1,15 @@
 import datetime
 import re
 
+try: 
+    import Image
+except ImportError:
+    from PIL import Image
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 from django.contrib.sites.models import Site
 
 import oembed
@@ -66,13 +75,29 @@ class ProviderTestCase(BaseOEmbedTestCase):
         self.assertTrue(category_data['height'] <= max_height)
         
         w, h = category_data['width'], category_data['height']
+        image_name = 'images/test_image1_%sx%s.jpg' % (w, h)
         
-        self.assertEqual(category_data['url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (w, h))
+        self.assertEqual(category_data['url'], 'http://example.com/media/%s' % image_name)
+        
+        # just double check to be sure it got saved here
+        self.assertTrue(image_name in self.storage._files)
+        
+        img_buf = StringIO(self.storage._files[image_name])
+        img = Image.open(img_buf)
+        img_width, img_height = img.size
+        self.assertTrue(img_width == w or img_height == h)
 
         tw, th = category_data['thumbnail_width'], category_data['thumbnail_height']
-
-        self.assertEqual(category_data['thumbnail_width'], 200)
-        self.assertEqual(category_data['thumbnail_url'], 'http://example.com/media/images/test_image1_%sx%s.jpg' % (tw, th))
+        thumbnail_name = 'images/test_image1_%sx%s.jpg' % (tw, th)
+        
+        self.assertEqual(category_data['thumbnail_url'], 'http://example.com/media/%s' % thumbnail_name)
+        
+        self.assertTrue(thumbnail_name in self.storage._files)
+        
+        img_buf = StringIO(self.storage._files[thumbnail_name])
+        img = Image.open(img_buf)
+        img_width, img_height = img.size
+        self.assertTrue(img_width == tw or img_height == th)
     
     def test_django_provider_image_sizing(self):
         resource = oembed.site.embed(self.category_url, maxwidth=450)
@@ -90,7 +115,6 @@ class ProviderTestCase(BaseOEmbedTestCase):
         
         category_data = resource.get_data()
         
-        # provider data is pulled from the sites table
         self.assertEqual(category_data['height'], 200)
         w, h = category_data['width'], category_data['height']
         
