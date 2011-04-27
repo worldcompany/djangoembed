@@ -131,7 +131,6 @@ class HTTPProvider(BaseProvider):
 
 class DjangoProviderOptions(object):
     model = None         # required
-    queryset = None      # model._default_manager.all() if not supplied
     named_view = ''      # required: the name of this models' detail view
     fields_to_match = {} # mapping of regex_field -> model attr for lookups
     
@@ -167,12 +166,8 @@ class DjangoProviderOptions(object):
                 )
     
     def _validate(self):
-        if self.model is None and self.queryset is None:
-            raise OEmbedException('Provider %s requires a model or queryset' % self.provider_class.__name__)
-        if self.model:
-            self.queryset = self.model._default_manager.all()
-        elif self.queryset:
-            self.model = self.queryset.model
+        if self.model is None:
+            raise OEmbedException('Provider %s requires a model' % self.provider_class.__name__)
         if not self.named_view:
             raise OEmbedException('Provider %s requires a named_view' % self.provider_class.__name__)
     
@@ -376,7 +371,7 @@ class DjangoProvider(BaseProvider):
         raise OEmbedException('No regex matched the url %s' % (url))
     
     def get_queryset(self):
-        return self._meta.queryset
+        return self._meta.model._default_manager.all()
     
     def get_object(self, url):
         """

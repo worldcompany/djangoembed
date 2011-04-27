@@ -27,7 +27,6 @@ class ProviderTestCase(BaseOEmbedTestCase):
         
         ops = BlogProvider._meta
         self.assertEqual(ops.model, Blog)
-        self.assertQuerysetEqual(ops.queryset, Blog.objects.all())
         self.assertEqual(ops.date_field, 'pub_date')
         self.assertEqual(ops.fields_to_match, {'entry_slug': 'slug'})
         self.assertEqual(ops.named_view, 'test_blog_detail')

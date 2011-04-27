@@ -109,10 +109,13 @@ file in your blog app's directory::
         resource_type = 'link' # this is required
         
         class Meta:
-            queryset = Entry.objects.filter(published=True)
+            model = Entry
             named_view = 'blog_detail'
             fields_to_match = {'entry_slug': 'slug'} # map url field to model field
         
+        def get_queryset(self):
+            queryset = Entry.objects.filter(published=True)
+
         def author_name(self, obj):
             return obj.author.username
         
@@ -182,3 +185,13 @@ dimensions.  These methods call a general-purpose resize() method which
 hooks into the image processing backend (by default PIL, but you can write 
 your own!) and resizes the photo, returning the url of the resized image and
 the new dimensions.
+
+If you want to manually specify which field to use for an image, simply override
+the ``get_image()`` method on your provider.  This method returns an instance
+of an ImageField::
+
+    class EntryProvider(DjangoProvider):
+        # ... meta, etc ...
+
+    def get_image(self, obj):
+        return obj.primary_photo
