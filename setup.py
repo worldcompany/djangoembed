@@ -26,6 +26,11 @@ setup(
             'tests/templates/*/*/*.html',
         ],
     },
+    install_requires = [
+        'PIL',
+        'BeautifulSoup',
+        'httplib2',
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
