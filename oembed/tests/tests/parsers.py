@@ -32,7 +32,19 @@ class TextBlockParserTestCase(BaseOEmbedTestCase):
     
     def test_extraction(self):
         extracted = self.parser.extract_urls('Testing %s wha?' % self.category_url)
-        self.assertEqual(extracted, set([self.category_url]))
+        self.assertEqual(extracted, [self.category_url])
+    
+    def test_extraction_ordering(self):
+        extracted = self.parser.extract_urls('''
+            %s %s %s
+            %s
+        ''' % (self.category_url, self.blog_url, self.category_url, self.rich_url))
+        
+        self.assertEqual(extracted, [
+            self.category_url,
+            self.blog_url,
+            self.rich_url,
+        ])
 
 
 class TextParserTestCase(BaseOEmbedTestCase):
@@ -54,7 +66,20 @@ class TextParserTestCase(BaseOEmbedTestCase):
 
     def test_extraction(self):
         extracted = self.parser.extract_urls('Testing %s wha?' % self.category_url)
-        self.assertEqual(extracted, set([self.category_url]))
+        self.assertEqual(extracted, [self.category_url])
+    
+    def test_extraction_ordering(self):
+        extracted = self.parser.extract_urls('''
+            %s %s %s
+            
+            %s
+        ''' % (self.category_url, self.blog_url, self.category_url, self.rich_url))
+        
+        self.assertEqual(extracted, [
+            self.category_url,
+            self.blog_url,
+            self.rich_url,
+        ])
 
 
 class HTMLParserTestCase(BaseOEmbedTestCase):
@@ -84,7 +109,21 @@ class HTMLParserTestCase(BaseOEmbedTestCase):
 
     def test_extraction(self):
         extracted = self.parser.extract_urls('<p>Testing %s wha?</p>' % self.category_url)
-        self.assertEqual(extracted, set([self.category_url]))
+        self.assertEqual(extracted, [self.category_url])
         
         extracted = self.parser.extract_urls('<p>Testing <a href="%(url)s">%(url)s</a> wha?</p>' % ({'url': self.category_url}))
-        self.assertEqual(extracted, set([]))
+        self.assertEqual(extracted, [])
+    
+    def test_extraction_ordering(self):
+        extracted = self.parser.extract_urls('''
+            <p>%s</p> <p>%s</p>
+            <a href="/">%s</a><!--rich url-->
+            <a href="%s">yo</a><!--rich url-->
+            <p>%s</p>
+        ''' % (self.category_url, self.blog_url, self.rich_url, self.rich_url, self.flickr_url))
+        
+        self.assertEqual(extracted, [
+            self.category_url,
+            self.blog_url,
+            self.flickr_url,
+        ])

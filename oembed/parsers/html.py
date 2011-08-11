@@ -57,9 +57,15 @@ class HTMLParser(BaseParser):
         block_parser = TextBlockParser()
         soup = BeautifulSoup(text)
         urls = set()
-        
+        url_list = []
+
         for user_url in soup.findAll(text=re.compile(URL_RE)):
             if not self.inside_a(user_url):
-                urls |= block_parser.extract_urls(unicode(user_url))
+                block_urls = block_parser.extract_urls(unicode(user_url))
+                
+                for url in block_urls:
+                    if url not in urls:
+                        url_list.append(url)
+                        urls.add(url)
         
-        return urls
+        return url_list

@@ -61,7 +61,14 @@ class TextBlockParser(BaseParser):
         return mark_safe(text)
     
     def extract_urls(self, text):
-        return set(re.findall(URL_RE, text))
+        urls = set()
+        url_list = []
+        for url in re.findall(URL_RE, text):
+            if url not in urls:
+                urls.add(url)
+                url_list.append(url)
+        
+        return url_list
 
 
 class TextParser(TextBlockParser):
