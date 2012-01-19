@@ -147,7 +147,7 @@
     "pk": 13, 
     "model": "oembed.storedprovider", 
     "fields": {
-      "regex": "http://\\S*.youtube.com/watch\\S*", 
+      "regex": "http://\\S*.youtu(\\.be|be\\.com)/watch\\S*", 
       "wildcard_regex": "http://www.youtube.com/watch*", 
       "provides": false, 
       "active": true, 
