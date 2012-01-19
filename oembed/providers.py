@@ -120,8 +120,11 @@ class HTTPProvider(BaseProvider):
         
         params['url'] = url
         params['format'] = 'json'
-             
-        url_with_qs = "%s?%s" % (self.endpoint_url, urlencode(params))
+        
+        if '?' in self.endpoint_ur:
+            url_with_qs = '%s&%s' % (self.endpoint_url.rstrip('&'), urlencode(params))
+        else:
+            url_with_qs = "%s?%s" % (self.endpoint_url, urlencode(params))
         
         headers, raw_response = self._fetch(url_with_qs)
         resource = self.convert_to_resource(headers, raw_response, params)
