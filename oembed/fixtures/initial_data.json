@@ -174,8 +174,8 @@
       "regex": "http://www.slideshare.net/\\S*/\\S*", 
       "wildcard_regex": "http://www.slideshare.net/*/*", 
       "provides": false, 
-      "active": false, 
-      "endpoint_url": "http://api.embed.ly/v1/api/oembed", 
+      "active": true, 
+      "endpoint_url": "http://www.slideshare.net/api/oembed/2", 
       "resource_type": "rich"
     }
   }, 
