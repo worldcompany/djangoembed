@@ -99,7 +99,9 @@ class HTTPProvider(BaseProvider):
         if 'content-type' not in headers:
             raise OEmbedException('Missing mime-type in response')
         
-        if headers['content-type'] in ('text/javascript', 'application/json'):
+        content_type = headers['content-type'].split(';')[0]
+        
+        if content_type in ('text/javascript', 'application/json'):
             try:
                 json_response = simplejson.loads(raw_response)
                 resource = OEmbedResource.create(json_response)
