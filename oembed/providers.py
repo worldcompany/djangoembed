@@ -121,7 +121,7 @@ class HTTPProvider(BaseProvider):
         params['url'] = url
         params['format'] = 'json'
         
-        if '?' in self.endpoint_ur:
+        if '?' in self.endpoint_url:
             url_with_qs = '%s&%s' % (self.endpoint_url.rstrip('&'), urlencode(params))
         else:
             url_with_qs = "%s?%s" % (self.endpoint_url, urlencode(params))
