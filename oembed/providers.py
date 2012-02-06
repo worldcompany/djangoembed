@@ -459,10 +459,9 @@ class DjangoProvider(BaseProvider):
         the url to the new image and the new width & height
         (http://path-to-new-image, 300, 300)
         """
-        if not isinstance(image_field, ImageFieldFile):
-            raise ValueError('image_field must be an instance of django.db.models.fields.files.ImageFieldFile')
-        
-        if image_field.field.width_field and image_field.field.height_field:
+        if isinstance(image_field, ImageFieldFile) and \
+           image_field.field.width_field and \
+           image_field.field.height_field:
             # use model fields
             current_width = getattr(image_field.instance, image_field.field.width_field)
             current_height = getattr(image_field.instance, image_field.field.height_field)
