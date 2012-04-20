@@ -742,5 +742,17 @@
       "endpoint_url": "http://api.embed.ly/v1/api/oembed",
       "resource_type": "rich"
     }
+  },
+  {
+    "pk": 63,
+    "model": "oembed.storedprovider",
+    "fields": {
+      "regex": "http://\\S*?smugmug.com/\\S*",
+      "wildcard_regex": "http://*.smugmug.com/*",
+      "provides": false,
+      "active": false,
+      "endpoint_url": "http://api.smugmug.com/services/oembed/",
+      "resource_type": "photo"
+    }
   }
 ]
