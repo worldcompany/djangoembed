@@ -1,3 +1,9 @@
+**THIS PROJECT IS UNMAINTAINED**
+
+Please use `micawber <https://github.com/coleifer/micawber>`_ -- it has much
+of the same functionality along with many improvements.
+
+
 Getting Started with OEmbed
 ===========================
 
